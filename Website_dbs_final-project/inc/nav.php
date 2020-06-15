@@ -17,6 +17,11 @@ $pageName = end($link_array);
                                         echo "active";
                                     } ?>" href="procedure_test.php">Procedure Test</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "select_user.php") {
+                                        echo "active";
+                                    } ?>" href="select_user.php">Select User</a>
+            </li>
         </ul>
     </div>
 </nav>

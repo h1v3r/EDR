@@ -19,8 +19,7 @@
     <div class="container">
         <?php
         require_once("utility/db_handler.php");
-        $oracle_handler->testInsert(420);
-        $oracle_handler->testSql();
+        $oracle_handler->selectUserTable();
         ?>
 
     </div>
