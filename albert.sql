@@ -19,7 +19,7 @@ create or replace view view_user_produkte as
 /** Out: nothing
 /** In: p_suchstring_in
 /** Developer: Albert Schleidt
-/** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string.
+/** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string. Returns a SYS_REFCURSOR.
 /**
 /*********************************************************************/
 create or replace function filter_angebot_by_produktname (p_suchstring_in in varchar) return SYS_REFCURSOR as
