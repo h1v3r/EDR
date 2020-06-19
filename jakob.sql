@@ -2,13 +2,13 @@ set serveroutput on;
 /
 /*********************************************************************
 /**
-/** Procedur: sp_addProduct
+/** Procedure: sp_addProduct
 /** Out: nothing
 /** In: l_n_saisonid_in - The Saisonid of the product.
 /** In: l_n_bioid_in - The Bioid of the product.
 /** In: l_v_name_in - The name of the product.
-/**Developer: Jakob Neuhauser
-/**Description: The procedure takes all the arguments needed for a product and inserts the data into the database. If saisonid or bioid are not valid, the data will not be inserted. 
+/** Developer: Jakob Neuhauser
+/** Description: The procedure takes all the arguments needed for a product and inserts the data into the database. If saisonid or bioid are not valid, the data will not be inserted. 
 /**
 /*********************************************************************/
 
@@ -40,19 +40,19 @@ exception
   when timeout_on_resource then 
     dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
   when others then
-    dbms_output.put_line('Some unknowen error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
 
 end;
 /
 /*********************************************************************
 /**
-/** Procedur: sp_addOffer
+/** Procedure: sp_addOffer
 /** Out: nothing
 /** In: l_n_useridVerkaeufer_in - The userid of the seller.
 /** In: l_n_kategorieid_in - The id of the kathegorie of the offer.
 /** In: l_v_anzeigetext_in - A short discription or the offer or the title. 
-/**Developer: Jakob Neuhauser
-/**Description: The procedure takes all the arguments needed for an offer and inserts the data into the database. If kategorieid or useridVerkaeufer are not valid, the data will not be inserted. 
+/** Developer: Jakob Neuhauser
+/** Description: The procedure takes all the arguments needed for an offer and inserts the data into the database. If kategorieid or useridVerkaeufer are not valid, the data will not be inserted. 
 /**
 /*********************************************************************/
 
@@ -84,13 +84,13 @@ exception
   when timeout_on_resource then 
     dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
   when others then
-    dbms_output.put_line('Some unknowen error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
     
  end;
 /
 /*********************************************************************
 /**
-/** Procedur: sp_addTransaction
+/** Procedure: sp_addTransaction
 /** Out: nothing
 /** In: l_n_angebotid_in - The angebotid of the transaction.
 /** In: l_n_useridKaufer_in - The userid of teh buyer.
@@ -98,8 +98,8 @@ exception
 /** In: l_v_bewertungVerkaeuferV_in - A rating in form of a value from the seller. 
 /** In: l_v_bewertungKaeuferT_in - A rating in Text from the buyer. 
 /** In: l_v_bewertungKaeuferV_in - A rating in form of a value from the buyer.
-/**Developer: Jakob Neuhauser
-/**Description: The procedure takes all the arguments needed for a transaction and inserts the data into the database. If angebotid or useridKaeufer are not valid, the data will not be inserted. 
+/** Developer: Jakob Neuhauser
+/** Description: The procedure takes all the arguments needed for a transaction and inserts the data into the database. If angebotid or useridKaeufer are not valid, the data will not be inserted. 
 /**
 /*********************************************************************/
 
@@ -137,13 +137,13 @@ exception
 /
 /*********************************************************************
 /**
-/** Procedur: sp_sendMessage
+/** Procedure: sp_sendMessage
 /** Out: nothing
 /** In: l_n_useridSender_in - The userid of the sender of the message.
 /** In: l_n_useridEmpf_in - The userid of the receiver of the message.
 /** In: l_v_inhalt_in - The content of the message. 
-/**Developer: Jakob Neuhauser
-/**Description: The procedure takes all the arguments needed for a Message and inserts the data into the database. If useridSender or useridEmpf are not valid, the data will not be inserted. The timestamp will be the time the procedure is executed. It is allowd that the userid of the sender and receiver are the same (for saving notes). 
+/** Developer: Jakob Neuhauser
+/** Description: The procedure takes all the arguments needed for a Message and inserts the data into the database. If useridSender or useridEmpf are not valid, the data will not be inserted. The timestamp will be the time the procedure is executed. It is allowd that the userid of the sender and receiver are the same (for saving notes). 
 /**
 /*********************************************************************/
 
@@ -185,8 +185,8 @@ exception
 /*********************************************************************
 /**
 /** Table: Bio_Faktor_User_Durchschnitt
-/**Developer: Jakob Neuhauser
-/**Description: A View which shows the average Bio_factor of every seller. 
+/** Developer: Jakob Neuhauser
+/** Description: A View which shows the average Bio_factor of every seller. 
 /**
 /*********************************************************************/
 
