@@ -19,10 +19,7 @@
     <div class="container">
         <?php
         require_once("utility/db_handler.php");
-        // //Not really a procedure but a test Select and Insert
-        // $oracle_handler->testInsert(76);
-        // $oracle_handler->testSql();
-        $oracle_handler->testProcedure();
+        $oracle_handler->testCursorFunction();
         ?>
 
     </div>

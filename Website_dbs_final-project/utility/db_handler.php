@@ -18,6 +18,23 @@ INSERT INTO test VALUES(6);
 SELECT * FROM test; 
 */
 
+
+/*
+CREATE OR REPLACE PROCEDURE myproc(p1 IN NUMBER, p2 OUT NUMBER) AS
+BEGIN
+    p2 := p1 * 2;
+END;
+*/
+
+/*
+  CREATE OR REPLACE FUNCTION myfunc(p1 IN NUMBER) RETURN SYS_REFCURSOR AS
+      rc SYS_REFCURSOR;
+  BEGIN
+      OPEN rc FOR SELECT testdata FROM test WHERE ROWNUM < p1;
+      RETURN rc;
+  END;
+*/
+
 define("USERNAME", "testpaul");
 define("PASSWORD", "test");
 define("CONNECTIONSTRING", "localhost:11521");
@@ -36,13 +53,18 @@ class oracle_db_handler
         }
     }
 
-    private function executeSql($sql)
+    private function parseSql($sql)
     {
         $stid = oci_parse($this->conn, $sql);
         if (!$stid) {
             $e = oci_error($this->conn);
             trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
         }
+        return $stid;
+    }
+
+    private function executeParsedSql($stid)
+    {
         $r = oci_execute($stid);
         if (!$r) {
             $e = oci_error($stid);
@@ -75,12 +97,12 @@ class oracle_db_handler
 
             if ($header == false) {
                 // this is the first iteration of the while loop so output the header.
-                print '<thead class="thead-dark"><tr>';
+                echo '<thead class="thead-dark"><tr>';
                 foreach (array_keys($row) as $key) {
-                    print '<th>' . ($key !== null ? htmlentities($key, ENT_QUOTES) :
+                    echo '<th>' . ($key !== null ? htmlentities($key, ENT_QUOTES) :
                         '') . '</th>';
                 }
-                print '</tr></thead>';
+                echo '</tr></thead>';
 
                 $header = true; // make sure we don't output the header again.
             }
@@ -97,19 +119,48 @@ class oracle_db_handler
 
     function testSql()
     {
-        $stid = $this->executeSql('SELECT * FROM test');
+        $stid = $this->parseSql('SELECT * FROM test');
+        $stid = $this->executeParsedSql($stid);
         $this->plotToTable($stid);
     }
 
     function testInsert($value)
     {
-        $stid = $this->executeSql('INSERT INTO test VALUES(' . $value . ')');
+        $stid = $this->executeParsedSql($this->parseSql('INSERT INTO test VALUES(' . $value . ')'));
     }
 
     function selectUserTable()
     {
-        $stid = $this->executeSql('SELECT * FROM "User"');
+        $stid = $this->executeParsedSql($this->parseSql('SELECT * FROM "User"'));
         $this->plotToTable($stid);
+    }
+
+    function testProcedure()
+    {
+        $p1 = 6;
+        $stid = $this->parseSql("begin myproc(:p1, :p2); end;");
+        oci_bind_by_name($stid, ":p1", $p1);
+        oci_bind_by_name($stid, ":p2", $p2, 420);
+        $stid = $this->executeParsedSql($stid);
+        echo "p1: $p1 / p2: $p2\n";
+    }
+
+    function testCursorFunction()
+    {
+        $stid = $this->parseSql("SElECT myfunc(20) AS mfrc FROM dual");
+        $stid = $this->executeParsedSql($stid);
+        echo "<table class='table table-hover'>";
+        while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
+            echo "<tr>";
+            $rc = $row['MFRC'];
+            oci_execute($rc);  // returned column value from the query is a ref cursor
+            while (($rc_row = oci_fetch_array($rc, OCI_ASSOC))) {
+                echo "    <td>" . $rc_row['TESTDATA'] . "</td>";
+            }
+            oci_free_statement($rc);
+            echo "</tr>";
+        }
+        echo "</table>";
     }
 }
 

@@ -13,14 +13,19 @@ $pageName = end($link_array);
                                     } ?>" href="account_page.php">Account Page</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "select_user.php") {
+                                        echo "active";
+                                    } ?>" href="select_user.php">Select User</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link <?php if ($pageName == "procedure_test.php") {
                                         echo "active";
                                     } ?>" href="procedure_test.php">Procedure Test</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link <?php if ($pageName == "select_user.php") {
+                <a class="nav-link <?php if ($pageName == "function_test.php") {
                                         echo "active";
-                                    } ?>" href="select_user.php">Select User</a>
+                                    } ?>" href="function_test.php">Function Cursor Test</a>
             </li>
         </ul>
     </div>
