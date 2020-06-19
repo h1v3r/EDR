@@ -8,13 +8,16 @@ SET SERVEROUTPUT ON;
 /**
 /*********************************************************************/
 
-CREATE VIEW User_Details AS
+CREATE OR REPLACE VIEW User_Details AS
 SELECT * FROM "User" 
-	LEFT JOIN "Adresse" using("adresseid")
-	LEFT JOIN "Rolle" using("rolleid")
+	LEFT JOIN "Adresse" USING("adresseid")
+	LEFT JOIN "Ort" USING("plz")
+	LEFT JOIN "Rolle" USING("rolleid")
 /
 --Test der View
 select * from User_Details
+/
+select * from "Adresse"
 /
 /*********************************************************************
 /**
@@ -26,24 +29,24 @@ select * from User_Details
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE FUNCTION f_Transaktion_UserX (i_n_userid IN number) RETURN SYS_REFCURSOR 
+CREATE OR REPLACE FUNCTION f_transaktion_userx (i_n_userid IN NUMBER) RETURN SYS_REFCURSOR 
 AS
 
 rc SYS_REFCURSOR;
 
 BEGIN
- OPEN rc FOR Select "transaktionid", "userid_verkaeufer", "anzeigetext" from "User" 
-	LEFT JOIN "Transaktion" on "userid" = "userid_kaeufer"
-	LEFT JOIN "Angebot" using("angebotid")
+ OPEN rc FOR SELECT "transaktionid", "userid_verkaeufer", "anzeigetext" FROM "User" 
+	LEFT JOIN "Transaktion" ON "userid" = "userid_kaeufer"
+	LEFT JOIN "Angebot" USING("angebotid")
 	WHERE "userid" = i_n_userid;
 	
 RETURN rc;
-exception 
-  when no_data_found then 
+EXCEPTION 
+  WHEN no_data_found THEN 
     dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  when timeout_on_resource then 
+  WHEN timeout_on_resource THEN 
     dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  when others then
+  WHEN OTHERS THEN
     dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
 
 END;
@@ -55,7 +58,7 @@ v_trans_id number;
 v_trans_vk_id number;
 v_trans_text VARCHAR(255);
 BEGIN
-test := f_Transaktion_UserX(10004);
+test := f_transaktion_userx(10004);
 
 LOOP
 FETCH test INTO v_trans_id, v_trans_vk_id, v_trans_text;
@@ -91,21 +94,20 @@ AS
 rc SYS_REFCURSOR;
 
 BEGIN
- OPEN rc FOR Select empf."vorname", empf."nachname", n."inhalt", n."message_time" from "User" s
-	LEFT JOIN "Nachrichten" n on s."userid" = n."userid_sender"
-	LEFT JOIN "User" empf on n."userid_empf" = empf."userid"
+ OPEN rc FOR SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User" s
+	LEFT JOIN "Nachrichten" n ON s."userid" = n."userid_sender"
+	LEFT JOIN "User" empf ON n."userid_empf" = empf."userid"
 		WHERE s."userid" = i_n_userid;
 	
 RETURN rc;
 
-exception 
-  when no_data_found then 
+EXCEPTION 
+  WHEN no_data_found THEN 
     dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  when timeout_on_resource then 
+  WHEN timeout_on_resource THEN 
     dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  when others then
+  WHEN OTHERS THEN
     dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
-
 END;
 /
 ---Function testen
@@ -127,9 +129,9 @@ END LOOP;
 END;
 /
 -- Test Select für die f_Nachrichten_UserX
-Select empf."vorname", empf."nachname", n."inhalt", n."message_time" from "User" s
-	LEFT JOIN "Nachrichten" n on s."userid" = n."userid_sender"
-	LEFT JOIN "User" empf on n."userid_empf" = empf."userid"
+SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User" s
+	LEFT JOIN "Nachrichten" n ON s."userid" = n."userid_sender"
+	LEFT JOIN "User" empf ON n."userid_empf" = empf."userid"
 		WHERE s."userid" = 10002
 
 /
@@ -142,24 +144,24 @@ Select empf."vorname", empf."nachname", n."inhalt", n."message_time" from "User"
 /** Description: Diese Funktion Liefert einen Cursor mit allen Nachrichten die ein Users versendet hat zurück. 
 /**
 /*********************************************************************/
-CREATE OR REPLACE FUNCTION f_Angebote_Saison (i_in_sid in NUMBER) RETURN SYS_REFCURSOR
-as
+CREATE OR REPLACE FUNCTION f_angebote_saison (i_in_sid IN NUMBER) RETURN SYS_REFCURSOR
+AS
 
 rc SYS_REFCURSOR;
 
 BEGIN
-OPEN rc FOR select a."angebotid", a."anzeigetext", p."name" from "Angebot" a 
-		LEFT JOIN "Produkt_Angebot" pa on a."angebotid"= pa."angebotid"
-		LEFT JOIN "Produkt" p using("produktid")
+OPEN rc FOR SELECT a."angebotid", a."anzeigetext", p."name" FROM "Angebot" a 
+		LEFT JOIN "Produkt_Angebot" pa ON a."angebotid"= pa."angebotid"
+		LEFT JOIN "Produkt" p USING("produktid")
 		WHERE "saisonid" = i_in_sid;
-return rc;
-exception 
-  when no_data_found then 
+RETURN rc;
+EXCEPTION 
+  WHEN no_data_found THEN 
     dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  when timeout_on_resource then 
+  WHEN timeout_on_resource THEN 
     dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  when others then
-    dbms_output.put_line('Some unknowen error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+  WHEN OTHERS THEN
+    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
 END;
 /
 ---Function testen
@@ -178,6 +180,7 @@ EXIT WHEN test%NOTFOUND;
 dbms_output.put_line(v_ang_id||v_ang_name||v_ang_text);
 
 END LOOP;
+
 END;
 /
 -- Test select 
