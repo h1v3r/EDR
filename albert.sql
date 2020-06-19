@@ -42,6 +42,7 @@ end;
 /** Description: Creates a new Ort, if it doesn't exist already.
 /**
 /*********************************************************************/
+-- Entweder mit OUT Parameter Fehlercode machen oder function return number den PK des erzeugten Eintrags
 create or replace procedure add_ort (l_n_plz_in in number, l_v_ortsname_in in varchar) as
     l_n_countEntries number;
 begin
@@ -61,3 +62,8 @@ exception
         end if;
 end;
 /
+
+-- TODO:
+-- Adresse anlegen
+-- Rolle anlegen
+-- User anlegen
