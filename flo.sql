@@ -2,30 +2,11 @@ SET SERVEROUTPUT ON;
 /
 /*********************************************************************
 /**
-/** Table: "User"
-/** Developer: Florian Weiss
-/** Description: Zeigt Userdetails aller User mit Adresse und Rolle
-/**
-/*********************************************************************/
-
-CREATE OR REPLACE VIEW User_Details AS
-SELECT * FROM "User" 
-	LEFT JOIN "Adresse" USING("adresseid")
-	LEFT JOIN "Ort" USING("plz")
-	LEFT JOIN "Rolle" USING("rolleid")
-/
---Test der View
-select * from User_Details
-/
-select * from "Adresse"
-/
-/*********************************************************************
-/**
 /** Function: Transaktionen_UserX
 /** In: UserID ? ID des Users der seine Transaktionen sehen will.
-/** Returns: Cursor der alle Transaktionen auflistet diese Users Values: Transaktionsid, Userid_verkäufer und der Anzeigetext
+/** Returns: Cursor der alle Transaktionen auflistet diese Users Values: Transaktionsid, Userid_verkï¿½ufer und der Anzeigetext
 /** Developer: Florian Weiss
-/** Description: Diese Funktion Liefert einen Cursor mit allen Transaktionen eines Users zurück. 
+/** Description: Diese Funktion Liefert einen Cursor mit allen Transaktionen eines Users zurï¿½ck. 
 /**
 /*********************************************************************/
 
@@ -70,7 +51,7 @@ END LOOP;
 
 END;
 /
----?Test Select für f_Transaktionen_UserX
+---?Test Select fï¿½r f_Transaktionen_UserX
 Select * from "User" 
 	LEFT JOIN "Transaktion" on "userid" = "userid_kaeufer"
 	LEFT JOIN "Angebot" using("angebotid")
@@ -81,9 +62,9 @@ Select * from "User"
 /**
 /** Function: Nachrichten_UserX
 /** In: UserID ? ID des Users der seine Nachrichten sehen will.
-/** Returns: Cursor der alle Nachriten auflistet die der User versendet hat Values: Vorname empfänger, Nachname Empfänger, Text und Timestamp
+/** Returns: Cursor der alle Nachriten auflistet die der User versendet hat Values: Vorname empfï¿½nger, Nachname Empfï¿½nger, Text und Timestamp
 /** Developer: Florian Weiss
-/** Description: Diese Funktion Liefert einen Cursor mit allen Nachrichten die ein Users versendet hat zurück. 
+/** Description: Diese Funktion Liefert einen Cursor mit allen Nachrichten die ein Users versendet hat zurï¿½ck. 
 /**
 /*********************************************************************/
 
@@ -126,7 +107,7 @@ dbms_output.put_line(v_mes_vn||v_mes_nn||v_mes_text||v_mes_time);
 END LOOP;
 END;
 /
--- Test Select für die f_Nachrichten_UserX
+-- Test Select fï¿½r die f_Nachrichten_UserX
 SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User" s
 	LEFT JOIN "Nachrichten" n ON s."userid" = n."userid_sender"
 	LEFT JOIN "User" empf ON n."userid_empf" = empf."userid"
@@ -136,8 +117,8 @@ SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User"
 /*********************************************************************
 /**
 /** Function: Angebote_Saison
-/** In: SaisonId ? ID der gewünschten Saison 
-/** Returns: Cursor der alle Angebote einer saison zurück liefert
+/** In: SaisonId ? ID der gewï¿½nschten Saison 
+/** Returns: Cursor der alle Angebote einer saison zurï¿½ck liefert
 /** Developer: Florian Weiss
 /** Description: Diese Funktion Liefert einen Cursor mit allen Angeboten die einer bestimmten Saison zugewiesen sind. 
 /**

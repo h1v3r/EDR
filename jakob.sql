@@ -182,21 +182,3 @@ exception
     
  end;
 /
-/*********************************************************************
-/**
-/** Table: Bio_Faktor_User_Durchschnitt
-/** Developer: Jakob Neuhauser
-/** Description: A View which shows the average Bio_factor of every seller. 
-/**
-/*********************************************************************/
-
-
-create or replace view Bio_Faktor_User_Durchschnitt as 
-  select "userid", avg(to_number(substr("kategorie_bezeichnung", 5, 1))) as Bio_Fakto from "User"
-    full join "Angebot" on "User"."userid"="Angebot"."userid_verkaeufer"
-    left join "Produkt_Angebot" using ("angebotid")
-    left join "Produkt" using ("produktid")
-    left join "Bio_Faktor" using ("bioid")
-    group by "userid"
-    order by "userid" asc;
-   

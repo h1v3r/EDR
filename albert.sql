@@ -1,20 +1,5 @@
 /*********************************************************************
 /**
-/** Table (View): view_user_produkte
-/** Developer: Albert Schleidt
-/** Description: Lists all products, users are currently offering
-/**
-/*********************************************************************/
-CREATE OR REPLACE view view_user_produkte AS
-    SELECT "angebotid" AS "Angebot ID", "produktid" AS "Produkt ID", "name" AS "Produktname", "userid_verkaeufer" AS "User ID Verkäufer", "vorname" "Vorname", "nachname" AS "Nachname"
-    FROM "Produkt"
-    JOIN "Produkt_Angebot" USING ("produktid")
-    JOIN "Angebot" USING ("angebotid")
-    JOIN "User" ON "userid_verkaeufer" = "userid";
-
-
-/*********************************************************************
-/**
 /** Function f_filter_angebot_by_produktname_cur
 /** In: l_v_suchstring_in - the string to search for
 /** Returns: A SYS_REFCURSOR with all matching entries fron Angebot joined with Produkt
@@ -30,7 +15,6 @@ BEGIN
 --EXCEPTION
 END;
 /
-
 
 /*********************************************************************
 /**
