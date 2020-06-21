@@ -15,14 +15,14 @@ CREATE OR REPLACE view view_user_produkte AS
 
 /*********************************************************************
 /**
-/** Function filter_angebot_by_produktname
+/** Function f_filter_angebot_by_produktname_cur
 /** In: l_v_suchstring_in - the string to search for
 /** Returns: A SYS_REFCURSOR with all matching entries fron Angebot joined with Produkt
 /** Developer: Albert Schleidt
 /** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string. Returns a SYS_REFCURSOR.
 /**
 /*********************************************************************/
-CREATE OR REPLACE FUNCTION filter_angebot_by_produktname (l_v_suchstring_in IN VARCHAR) RETURN SYS_REFCURSOR AS
+CREATE OR REPLACE FUNCTION f_filter_angebot_by_produktname_cur (l_v_suchstring_in IN VARCHAR) RETURN SYS_REFCURSOR AS
     l_return_cursor_cur_out SYS_REFCURSOR;
 BEGIN
     OPEN l_return_cursor_cur_out for SELECT * FROM "Angebot" JOIN "Produkt_Angebot" USING ("angebotid") JOIN "Produkt" USING ("produktid") WHERE "name" LIKE '%'||l_v_suchstring_in||'%';
@@ -34,7 +34,7 @@ END;
 
 /*********************************************************************
 /**
-/** Procedure: add_ort
+/** Procedure: sp_add_ort
 /** Out: l_n_pk_out - rimary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plz_in - the desired PLZ for the new Ort
@@ -43,7 +43,7 @@ END;
 /** Description: Creates a new Ort, IF it doesn't exist already.
 /**
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE add_ort (l_n_plz_in IN NUMBER, l_v_ortsname_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+CREATE OR REPLACE PROCEDURE sp_add_ort (l_n_plz_in IN NUMBER, l_v_ortsname_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
 BEGIN
     SELECT count(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in AND "name" = l_v_ortsname_in;
@@ -62,7 +62,7 @@ END;
 
 /*********************************************************************
 /**
-/** Procedure: add_adresse
+/** Procedure: sp_add_adresse
 /** Out: l_n_pk_out - rimary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plzpk_in - the primary key of the plz to be associated with the Adresse
@@ -72,7 +72,7 @@ END;
 /** Description: Creates a new Adresse, if it doesn't exist already.
 /**
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE add_adresse (l_n_plzpk_in IN NUMBER, l_v_strasse_in IN VARCHAR, l_v_hausnummer_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+CREATE OR REPLACE PROCEDURE sp_add_adresse (l_n_plzpk_in IN NUMBER, l_v_strasse_in IN VARCHAR, l_v_hausnummer_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
     l_n_adresseid NUMBER;
     l_n_maxAdresseid NUMBER;
@@ -94,7 +94,7 @@ END;
 
 /*********************************************************************
 /**
-/** Procedure: add_rolle
+/** Procedure: sp_add_rolle
 /** Out: l_n_pk_out - rimary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_v_titel_in - Title of the Rolle
@@ -103,7 +103,7 @@ END;
 /** Description: Creates a new Rolle, if it doesn't exist already.
 /**
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE add_rolle (l_v_titel_in IN VARCHAR, l_v_beschreibung_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+CREATE OR REPLACE PROCEDURE sp_add_rolle (l_v_titel_in IN VARCHAR, l_v_beschreibung_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
     l_n_maxRolleid NUMBER;
 BEGIN
@@ -124,7 +124,7 @@ END;
 
 /*********************************************************************
 /**
-/** Procedure: add_user
+/** Procedure: sp_add_user
 /** Out: l_n_pk_out - rimary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_rollepk_in - rolleid of the user
@@ -136,7 +136,7 @@ END;
 /** Description: Creates a new user, if it doesn't exist already.
 /**
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE add_user (l_n_rollepk_in IN NUMBER, l_v_vorname_in IN VARCHAR, l_v_nachname_in IN VARCHAR, l_d_dob_in DATE, l_n_adressepk_in IN NUMBER, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+CREATE OR REPLACE PROCEDURE sp_add_user (l_n_rollepk_in IN NUMBER, l_v_vorname_in IN VARCHAR, l_v_nachname_in IN VARCHAR, l_d_dob_in DATE, l_n_adressepk_in IN NUMBER, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
     l_n_maxUserid NUMBER;
 BEGIN
