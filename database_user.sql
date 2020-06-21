@@ -1,10 +1,42 @@
 -- Zwei Optionen:
 -- Option 1: Neuen User mit readonly privileges erstellen
-create user edr_readonly identified by edr_readonly;
-grant create session to edr_readonly;
+-- Vorteil: Neuer User; Nachteil: Calls auf Views / Procedures / Functions müssen mit namen_des_ersteller_users. beginnen.
+CREATE USER edr_readonly IDENTIFIED BY edr_readonly;
+GRANT CREATE SESSION TO edr_readonly;
 
-grant select on BIO_FAKTOR_USER_DURCHSCHNITT to edr_readonly;
-grant select on VIEW_USER_PRODUKTE to edr_readonly;
-grant select on TRANSAKTION_PER_SAISON to edr_readonly;
+GRANT SELECT ON BIO_FAKTOR_USER_DURCHSCHNITT TO edr_readonly;
+GRANT SELECT ON VIEW_USER_PRODUKTE TO edr_readonly;
+GRANT SELECT ON TRANSAKTION_PER_SAISON TO edr_readonly;
 
-select * from edr_user.BIO_FAKTOR_USER_DURCHSCHNITT;
+GRANT EXECUTE ON SP_ADDPRODUCT TO edr_readonly;
+GRANT EXECUTE ON SP_ADDOFFER TO edr_readonly;
+GRANT EXECUTE ON SP_ADDTRANSACTION TO edr_readonly;
+GRANT EXECUTE ON SP_SENDMESSAGE TO edr_readonly;
+GRANT EXECUTE ON SP_ADD_ROLLE TO edr_readonly;
+GRANT EXECUTE ON SP_ADD_USER TO edr_readonly;
+GRANT EXECUTE ON SP_ADD_ORT TO edr_readonly;
+GRANT EXECUTE ON SP_ADD_ADRESSE TO edr_readonly;
+GRANT EXECUTE ON F_FILTER_ANGEBOT_BY_PRODUKTNAME TO edr_readonly;
+
+SELECT * FROM edr_user.BIO_FAKTOR_USER_DURCHSCHNITT;
+
+-- Option 2: Erstelleruser umwandeln
+-- Vorteil: Calls wie bisher; Nachteil: Neuer User für etwaige Änderungen erforderlich
+REVOKE sysdba FROM edr_user;
+REVOKE ALL PRIVILEGES FROM edr_user;
+
+GRANT CREATE SESSION TO edr_user;
+
+GRANT SELECT ON BIO_FAKTOR_USER_DURCHSCHNITT TO edr_user;
+GRANT SELECT ON VIEW_USER_PRODUKTE TO edr_user;
+GRANT SELECT ON TRANSAKTION_PER_SAISON TO edr_user;
+
+GRANT EXECUTE ON SP_ADDPRODUCT TO edr_user;
+GRANT EXECUTE ON SP_ADDOFFER TO edr_user;
+GRANT EXECUTE ON SP_ADDTRANSACTION TO edr_user;
+GRANT EXECUTE ON SP_SENDMESSAGE TO edr_user;
+GRANT EXECUTE ON SP_ADD_ROLLE TO edr_user;
+GRANT EXECUTE ON SP_ADD_USER TO edr_user;
+GRANT EXECUTE ON SP_ADD_ORT TO edr_user;
+GRANT EXECUTE ON SP_ADD_ADRESSE TO edr_user;
+GRANT EXECUTE ON F_FILTER_ANGEBOT_BY_PRODUKTNAME TO edr_user;
