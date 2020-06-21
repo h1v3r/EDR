@@ -29,7 +29,7 @@ select * from "Adresse"
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE FUNCTION f_transaktion_userx (i_n_userid IN NUMBER) RETURN SYS_REFCURSOR 
+CREATE OR REPLACE FUNCTION f_transaktion_userx (i_n_userid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
 AS
 
 rc SYS_REFCURSOR;
@@ -41,13 +41,10 @@ BEGIN
 	WHERE "userid" = i_n_userid;
 	
 RETURN rc;
-EXCEPTION 
-  WHEN no_data_found THEN 
-    dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN timeout_on_resource THEN 
-    dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN OTHERS THEN
-    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+ EXCEPTION 
+ WHEN others THEN
+        l_v_error_ou := SQLCODE;
+ 
 
 END;
 /
@@ -57,8 +54,10 @@ test SYS_REFCURSOR;
 v_trans_id number;
 v_trans_vk_id number;
 v_trans_text VARCHAR(255);
+xxx VARCHAR(255);
+
 BEGIN
-test := f_transaktion_userx(10004);
+test := f_transaktion_userx(10004,xxx);
 
 LOOP
 FETCH test INTO v_trans_id, v_trans_vk_id, v_trans_text;
@@ -88,7 +87,7 @@ Select * from "User"
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE FUNCTION f_Nachrichten_UserX (i_n_userid IN number) RETURN SYS_REFCURSOR 
+CREATE OR REPLACE FUNCTION f_Nachrichten_UserX (i_n_userid IN number, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
 AS
 
 rc SYS_REFCURSOR;
@@ -101,13 +100,10 @@ BEGIN
 	
 RETURN rc;
 
-EXCEPTION 
-  WHEN no_data_found THEN 
-    dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN timeout_on_resource THEN 
-    dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN OTHERS THEN
-    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+ EXCEPTION 
+ WHEN others THEN
+        l_v_error_ou := SQLCODE;
+ 
 END;
 /
 ---Function testen
@@ -117,8 +113,10 @@ v_mes_vn VARCHAR(255);
 v_mes_nn VARCHAR(255);
 v_mes_text VARCHAR(255);
 v_mes_time DATE;
+xxx VARCHAR(255);
+
 BEGIN
-test := f_Nachrichten_UserX(10002);
+test := f_Nachrichten_UserX(10002, xxx);
 
 LOOP
 FETCH test INTO v_mes_vn, v_mes_nn, v_mes_text,v_mes_time;
@@ -139,12 +137,12 @@ SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User"
 /**
 /** Function: Angebote_Saison
 /** In: SaisonId ? ID der gewünschten Saison 
-/** Returns: Cursor der alle Nachriten auflistet die der User versendet hat Values: Vorname empfänger, Nachname Empfänger, Text und Timestamp
+/** Returns: Cursor der alle Angebote einer saison zurück liefert
 /** Developer: Florian Weiss
-/** Description: Diese Funktion Liefert einen Cursor mit allen Nachrichten die ein Users versendet hat zurück. 
+/** Description: Diese Funktion Liefert einen Cursor mit allen Angeboten die einer bestimmten Saison zugewiesen sind. 
 /**
 /*********************************************************************/
-CREATE OR REPLACE FUNCTION f_angebote_saison (i_in_sid IN NUMBER) RETURN SYS_REFCURSOR
+CREATE OR REPLACE FUNCTION f_angebote_saison (i_in_sid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR
 AS
 
 rc SYS_REFCURSOR;
@@ -154,14 +152,13 @@ OPEN rc FOR SELECT a."angebotid", a."anzeigetext", p."name" FROM "Angebot" a
 		LEFT JOIN "Produkt_Angebot" pa ON a."angebotid"= pa."angebotid"
 		LEFT JOIN "Produkt" p USING("produktid")
 		WHERE "saisonid" = i_in_sid;
+		
 RETURN rc;
-EXCEPTION 
-  WHEN no_data_found THEN 
-    dbms_output.put_line('No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN timeout_on_resource THEN 
-    dbms_output.put_line('Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200));
-  WHEN OTHERS THEN
-    dbms_output.put_line('Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200));
+
+ EXCEPTION 
+ WHEN others THEN
+        l_v_error_ou := SQLCODE;
+ 
 END;
 /
 ---Function testen
@@ -170,9 +167,10 @@ test SYS_REFCURSOR;
 v_ang_id VARCHAR(255);
 v_ang_name VARCHAR(255);
 v_ang_text VARCHAR(255);
+xxx VARCHAR(255);
 
 BEGIN
-test := f_Angebote_Saison(3);
+test := f_angebote_saison(1000, xxx);
 
 LOOP
 FETCH test INTO v_ang_id, v_ang_name, v_ang_text;
