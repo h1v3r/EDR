@@ -51,7 +51,7 @@ BEGIN
         dbms_output.put_line(l_n_plz_in);
         RETURN;
     ELSE
-        insert INTO "Ort" values (l_n_plz_in, l_v_ortsname_in);
+        INSERT INTO "Ort" VALUES (l_n_plz_in, l_v_ortsname_in);
         dbms_output.put_line(l_n_plz_in);
     END IF;
 exception
