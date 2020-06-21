@@ -1,23 +1,5 @@
 /*********************************************************************
 /**
-/** Function f_filter_angebot_by_produktname_cur
-/** In: l_v_suchstring_in - the string to search for
-/** Returns: A SYS_REFCURSOR with all matching entries fron Angebot joined with Produkt
-/** Developer: Albert Schleidt
-/** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string. Returns a SYS_REFCURSOR.
-/**
-/*********************************************************************/
-CREATE OR REPLACE FUNCTION f_filter_angebot_by_produktname_cur (l_v_suchstring_in IN VARCHAR) RETURN SYS_REFCURSOR AS
-    l_return_cursor_cur_out SYS_REFCURSOR;
-BEGIN
-    OPEN l_return_cursor_cur_out for SELECT * FROM "Angebot" JOIN "Produkt_Angebot" USING ("angebotid") JOIN "Produkt" USING ("produktid") WHERE "name" LIKE '%'||l_v_suchstring_in||'%';
-    RETURN l_return_cursor_cur_out;
---EXCEPTION
-END;
-/
-
-/*********************************************************************
-/**
 /** Procedure: sp_add_ort
 /** Out: l_n_pk_out - rimary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
