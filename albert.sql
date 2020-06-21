@@ -121,6 +121,36 @@ EXCEPTION
         l_n_error_out := SQLCODE;
 END;
 /
--- TODO:
--- Rolle anlegen
--- User anlegen
+
+/*********************************************************************
+/**
+/** Procedure: add_user
+/** Out: Primary Key ID of the existing or added element
+/** Out: Error code if error occured
+/** In: l_n_rollepk_in - rolleid of the user
+/** In: l_v_vorname_in - vorname of the user
+/** In: l_v_nachname_in - nachname of the user
+/** In: l_d_dob_in - date of birth of the user
+/** In: l_n_adressepk_in - adresseid of the user
+/** Developer: Albert Schleidt
+/** Description: Creates a new user, if it doesn't exist already.
+/**
+/*********************************************************************/
+CREATE OR REPLACE PROCEDURE add_user (l_n_rollepk_in IN NUMBER, l_v_vorname_in IN VARCHAR, l_v_nachname_in IN VARCHAR, l_d_dob_in DATE, l_n_adressepk_in IN NUMBER, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+    l_n_countEntries NUMBER;
+    l_n_maxUserid NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO l_n_countEntries FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob_in AND "adresseid" = l_n_adressepk_in;
+    IF l_n_countEntries > 0 THEN
+    SELECT "userid" INTO l_n_pk_out FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob_in AND "adresseid" = l_n_adressepk_in;
+        RETURN;
+    ELSE
+        SELECT MAX("userid") INTO l_n_maxUserid FROM "User";
+        INSERT INTO "User" VALUES (l_n_maxUserid+1, l_n_rollepk_in, l_v_vorname_in, l_v_nachname_in, l_d_dob_in, l_n_adressepk_in);
+        l_n_pk_out := l_n_maxUserid+1;
+    END IF;
+EXCEPTION
+    WHEN others THEN
+        l_n_error_out := SQLCODE;
+END;
+/
