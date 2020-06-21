@@ -35,8 +35,8 @@ END;
 /*********************************************************************
 /**
 /** Procedure: add_ort
-/** Out: Primary Key ID of the existing or added element
-/** Out: Error code if error occured
+/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plz_in - the desired PLZ for the new Ort
 /** In: l_v_ortsname_in - the desired name for the new Ort
 /** Developer: Albert Schleidt
@@ -63,8 +63,8 @@ END;
 /*********************************************************************
 /**
 /** Procedure: add_adresse
-/** Out: Primary Key ID of the existing or added element
-/** Out: Error code if error occured
+/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plzpk_in - the primary key of the plz to be associated with the Adresse
 /** In: l_v_strasse_in - the Strasse parameter to be added to the Adresse
 /** In: l_v_hausnummer_in - the Hausnummer parameter to be added to the Adresse
@@ -95,8 +95,8 @@ END;
 /*********************************************************************
 /**
 /** Procedure: add_rolle
-/** Out: Primary Key ID of the existing or added element
-/** Out: Error code if error occured
+/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_error_out - Error code if error occured
 /** In: l_v_titel_in - Title of the Rolle
 /** In: l_v_beschreibung_in - Beschreibung of the Rolle
 /** Developer: Albert Schleidt
@@ -125,8 +125,8 @@ END;
 /*********************************************************************
 /**
 /** Procedure: add_user
-/** Out: Primary Key ID of the existing or added element
-/** Out: Error code if error occured
+/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_error_out - Error code if error occured
 /** In: l_n_rollepk_in - rolleid of the user
 /** In: l_v_vorname_in - vorname of the user
 /** In: l_v_nachname_in - nachname of the user
