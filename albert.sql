@@ -5,12 +5,12 @@
 /** Description: Lists all products, users are currently offering
 /**
 /*********************************************************************/
-create or replace view view_user_produkte as
-    select "angebotid" as "Angebot ID", "produktid" as "Produkt ID", "name" as "Produktname", "userid_verkaeufer" as "User ID Verkäufer", "vorname" "Vorname", "nachname" as "Nachname"
-    from "Produkt"
-    join "Produkt_Angebot" using ("produktid")
-    join "Angebot" using ("angebotid")
-    join "User" on "userid_verkaeufer" = "userid";
+CREATE OR REPLACE view view_user_produkte AS
+    SELECT "angebotid" AS "Angebot ID", "produktid" AS "Produkt ID", "name" AS "Produktname", "userid_verkaeufer" AS "User ID Verkäufer", "vorname" "Vorname", "nachname" AS "Nachname"
+    FROM "Produkt"
+    JOIN "Produkt_Angebot" USING ("produktid")
+    JOIN "Angebot" USING ("angebotid")
+    JOIN "User" ON "userid_verkaeufer" = "userid";
 
 
 /*********************************************************************
@@ -22,13 +22,13 @@ create or replace view view_user_produkte as
 /** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string. Returns a SYS_REFCURSOR.
 /**
 /*********************************************************************/
-create or replace function filter_angebot_by_produktname (l_v_suchstring_in in varchar) return SYS_REFCURSOR as
+CREATE OR REPLACE FUNCTION filter_angebot_by_produktname (l_v_suchstring_in IN varchar) RETURN SYS_REFCURSOR AS
     l_return_cursor_cur_out SYS_REFCURSOR;
-begin
-    open l_return_cursor_cur_out for select * from "Angebot" join "Produkt_Angebot" using ("angebotid") join "Produkt" using ("produktid") where "name" like '%'||l_v_suchstring_in||'%';
-    return l_return_cursor_cur_out;
+BEGIN
+    OPEN l_return_cursor_cur_out for SELECT * FROM "Angebot" JOIN "Produkt_Angebot" USING ("angebotid") JOIN "Produkt" USING ("produktid") WHERE "name" LIKE '%'||l_v_suchstring_in||'%';
+    RETURN l_return_cursor_cur_out;
 --exception
-end;
+END;
 /
 
 
@@ -39,28 +39,28 @@ end;
 /** In: l_n_plz_in - the desired PLZ for the new Ort
 /** In: l_v_ortsname_in - the desired name for the new Ort
 /** Developer: Albert Schleidt
-/** Description: Creates a new Ort, if it doesn't exist already.
+/** Description: Creates a new Ort, IF it doesn't exist already.
 /**
 /*********************************************************************/
--- Entweder mit OUT Parameter Fehlercode machen oder function return number den PK des erzeugten Eintrags
-create or replace procedure add_ort (l_n_plz_in in number, l_v_ortsname_in in varchar) as
-    l_n_countEntries number;
-begin
-    select count(*) into l_n_countEntries from "Ort" where "plz" = l_n_plz_in and "name" = l_v_ortsname_in;
-    if l_n_countEntries > 0 then
+-- Entweder mit OUT Parameter Fehlercode machen oder FUNCTION RETURN NUMBER den PK des erzeugten Eintrags
+CREATE OR REPLACE PROCEDURE add_ort (l_n_plz_in IN NUMBER, l_v_ortsname_in IN varchar) AS
+    l_n_countEntries NUMBER;
+BEGIN
+    SELECT count(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in AND "name" = l_v_ortsname_in;
+    IF l_n_countEntries > 0 THEN
         dbms_output.put_line(l_n_plz_in);
-        return;
-    else
-        insert into "Ort" values (l_n_plz_in, l_v_ortsname_in);
+        RETURN;
+    ELSE
+        insert INTO "Ort" values (l_n_plz_in, l_v_ortsname_in);
         dbms_output.put_line(l_n_plz_in);
-    end if;
+    END IF;
 exception
-    when others then
+    when others THEN
         dbms_output.put_line('-1');
-        if sqlcode = -00001 then
+        IF sqlcode = -00001 THEN
             dbms_output.put_line('Unique constraint violated.');
-        end if;
-end;
+        END IF;
+END;
 /
 
 -- TODO:
