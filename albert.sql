@@ -79,8 +79,7 @@ CREATE OR REPLACE PROCEDURE add_adresse (l_n_plzpk_in IN NUMBER, l_v_strasse_in 
 BEGIN
     SELECT COUNT(*) INTO l_n_countEntries FROM "Adresse" WHERE "plz" = l_n_plzpk_in AND "strasse" = l_v_strasse_in AND "hausnummer" = l_v_hausnummer_in;
     IF l_n_countEntries > 0 THEN
-    SELECT "adresseid" INTO l_n_adresseid FROM "Adresse" WHERE "plz" = l_n_plzpk_in AND "strasse" = l_v_strasse_in AND "hausnummer" = l_v_hausnummer_in;
-        l_n_pk_out := l_n_adresseid;
+        SELECT "adresseid" INTO l_n_pk_out FROM "Adresse" WHERE "plz" = l_n_plzpk_in AND "strasse" = l_v_strasse_in AND "hausnummer" = l_v_hausnummer_in;
         RETURN;
     ELSE
         SELECT MAX("adresseid") INTO l_n_maxAdresseid FROM "Adresse";
@@ -93,7 +92,35 @@ EXCEPTION
 END;
 /
 
+/*********************************************************************
+/**
+/** Procedure: add_rolle
+/** Out: Primary Key ID of the existing or added element
+/** Out: Error code if error occured
+/** In: l_v_titel_in - Title of the Rolle
+/** In: l_v_beschreibung_in - Beschreibung of the Rolle
+/** Developer: Albert Schleidt
+/** Description: Creates a new Rolle, if it doesn't exist already.
+/**
+/*********************************************************************/
+CREATE OR REPLACE PROCEDURE add_rolle (l_v_titel_in IN VARCHAR, l_v_beschreibung_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+    l_n_countEntries NUMBER;
+    l_n_maxRolleid NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO l_n_countEntries FROM "Rolle" WHERE "title" = l_v_titel_in AND "beschreibung" = l_v_beschreibung_in;
+    IF l_n_countEntries > 0 THEN
+        SELECT "rolleid" INTO l_n_pk_out FROM "Rolle" WHERE "title" = l_v_titel_in AND "beschreibung" = l_v_beschreibung_in;
+        RETURN;
+    ELSE
+        SELECT MAX("rolleid") INTO l_n_maxRolleid FROM "Rolle";
+        INSERT INTO "Rolle" VALUES (l_n_maxRolleid+1, l_v_titel_in, l_v_beschreibung_in);
+        l_n_pk_out := l_n_maxRolleid+1;
+    END IF;
+EXCEPTION
+    WHEN others THEN
+        l_n_error_out := SQLCODE;
+END;
+/
 -- TODO:
--- Adresse anlegen
 -- Rolle anlegen
 -- User anlegen
