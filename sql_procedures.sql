@@ -4,7 +4,7 @@ SET serveroutput ON;
 /*********************************************************************
 /**
 /** Procedure: sp_add_ort
-/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_pk_out - primary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plz_in - the desired PLZ for the new Ort
 /** In: l_v_ortsname_in - the desired name for the new Ort
@@ -32,7 +32,7 @@ END;
 /*********************************************************************
 /**
 /** Procedure: sp_add_adresse
-/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_pk_out - primary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_plzpk_in - the primary key of the plz to be associated with the Adresse
 /** In: l_v_strasse_in - the Strasse parameter to be added to the Adresse
@@ -64,7 +64,7 @@ END;
 /*********************************************************************
 /**
 /** Procedure: sp_add_rolle
-/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_pk_out - primary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_v_titel_in - Title of the Rolle
 /** In: l_v_beschreibung_in - Beschreibung of the Rolle
@@ -94,7 +94,7 @@ END;
 /*********************************************************************
 /**
 /** Procedure: sp_add_user
-/** Out: l_n_pk_out - rimary Key ID of the existing or added element
+/** Out: l_n_pk_out - primary Key ID of the existing or added element
 /** Out: l_n_error_out - Error code if error occured
 /** In: l_n_rollepk_in - rolleid of the user
 /** In: l_v_vorname_in - vorname of the user
@@ -121,11 +121,13 @@ BEGIN
 EXCEPTION
     WHEN others THEN
         l_n_error_out := SQLCODE;
-END;*********************************************************************
+END;
+/
 
+/*********************************************************************
 /**
 /** Procedure: sp_addProduct
-/** Out: l_v_error_ou - Eventual error message. 
+/** Out: l_v_error_out - Eventual error message. 
 /** In: l_n_saisonid_in - The Saisonid of the product.
 /** In: l_n_bioid_in - The Bioid of the product.
 /** In: l_v_name_in - The name of the product.
@@ -170,7 +172,7 @@ END;
 /*********************************************************************
 /**
 /** Procedure: sp_addOffer
-/** Out: l_v_error_ou - Eventual error message.
+/** Out: l_v_error_out - Eventual error message.
 /** In: l_n_useridVerkaeufer_in - The userid of the seller.
 /** In: l_n_kategorieid_in - The id of the kathegorie of the offer.
 /** In: l_v_anzeigetext_in - A short discription or the offer or the title. 
@@ -215,7 +217,7 @@ EXCEPTION
 /*********************************************************************
 /**
 /** Procedure: sp_addTransaction
-/** Out: l_v_error_ou - Eventual error message.
+/** Out: l_v_error_out - Eventual error message.
 /** In: l_n_angebotid_in - The angebotid of the transaction.
 /** In: l_n_useridKaufer_in - The userid of teh buyer.
 /** In: l_v_bewertungVerkaeuferT_in - A rating in Text FROM the seller. 
@@ -263,7 +265,7 @@ EXCEPTION
 /*********************************************************************
 /**
 /** Procedure: sp_sendMessage
-/** Out: l_v_error_ou - Eventual error message.
+/** Out: l_v_error_out - Eventual error message.
 /** In: l_n_useridSender_in - The userid of the sender of the message.
 /** In: l_n_useridEmpf_in - The userid of the receiver of the message.
 /** In: l_v_inhalt_in - The content of the message. 
@@ -316,7 +318,7 @@ EXCEPTION
 /*********************************************************************
 /**
 /** Procedure: sp_updateUserRolle
-/** Out: l_v_error_ou - Eventual error message.
+/** Out: l_v_error_out - Eventual error message.
 /** In: l_n_userId - The Userid of the user whom I wnat to change the role. 
 /** In: l_n_roleId - The id of the role to which I want to change.  
 /** Developer: Jakob Neuhauser
@@ -336,5 +338,24 @@ EXCEPTION
   WHEN OTHERS THEN
     l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
+END;
+/
+
+/*********************************************************************
+/**
+/** Procedure: sp_delete_user
+/** Out: l_n_error_out - Error code if error occured
+/** In: l_n_userid_in - the primary key userid of the user to be deleted
+/** Developer: Albert Schleidt
+/** Description: Deletes a given user and assigns the following elements to the demo-deleted user: Nachrichten (sent or received), Transaktionen & Angebote
+/**
+/*********************************************************************/
+CREATE OR REPLACE PROCEDURE sp_delete_user (l_n_userid_in IN NUMBER, l_n_error_out OUT NUMBER) AS
+  l_n_demouserid NUMBER;
+  l_n_add_user_error NUMBER;
+BEGIN
+  sp_add_user(1, 'DELETE', 'USER', TO_DATE('2000/06/09', 'yyyy/mm/dd'), 107, l_n_demouserid, l_n_add_user_error);
+
+-- EXCEPTION
 END;
 /
