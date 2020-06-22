@@ -161,5 +161,16 @@ INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge")
 INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge")
     VALUES (703, 803, 67);
 
+/*********************************************************************/
+/** Table: Ort, Adresse, User
+/** Developer: Jakob Neuhauser 
+/** Discription: Create a User System. Is needed for a trigger. 
+/*********************************************************************/
+INSERT INTO "Ort" ("plz", "name") 
+    VALUES (0, 'System Ort'); 
+INSERT INTO "Adresse" ("adresseid", "plz", "strasse", "hausnummer") 
+    VALUES (0, 0, 'Systemgasse', 0);
+INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "adresseid") 
+    VALUES (0, 3, 'EDR', 'System', 0);
 
 COMMIT;

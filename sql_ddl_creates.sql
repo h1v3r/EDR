@@ -210,6 +210,25 @@ CREATE TABLE "Saison"
 );
 
 /*********************************************************************/
+/**
+/** Table: User_Rolle_Log
+/** Developer: Jakob Neuhauser
+/** Description: A Table to log all userrole changes. 
+/**
+/*********************************************************************/
+
+CREATE TABLE "User_Rolle_Log"
+(
+    "logid" NUMBER, 
+    "userid" NUMBER, 
+    "rolleid_alt" number, 
+    "rolleid_neu" number, 
+    "time" TIMESTAMP, 
+    "aktion" varchar(10), 
+    PRIMARY KEY("logid")
+);
+
+/*********************************************************************/
 /** 
 /** 
 /** INDEXES (Removed by Paul Pavlis because they are wrong ._.)

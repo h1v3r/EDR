@@ -25,7 +25,6 @@ SELECT * FROM "User"
 	LEFT JOIN "Adresse" USING("adresseid")
 	LEFT JOIN "Ort" USING("plz")
 	LEFT JOIN "Rolle" USING("rolleid")
-/
 
 /*********************************************************************
 /**
@@ -35,15 +34,15 @@ SELECT * FROM "User"
 /**
 /*********************************************************************/
 
-create or replace view Bio_Faktor_User_Durchschnitt as 
-  select "userid", avg(to_number(substr("kategorie_bezeichnung", 5, 1))) as Bio_Fakto from "User"
-    full join "Angebot" on "User"."userid"="Angebot"."userid_verkaeufer"
-    left join "Produkt_Angebot" using ("angebotid")
-    left join "Produkt" using ("produktid")
-    left join "Bio_Faktor" using ("bioid")
-    group by "userid"
-    order by "userid" asc;
-   
+CREATE OR REPLACE VIEW Bio_Faktor_User_Durchschnitt AS 
+  SELECT "userid", AVG(TO_NUMBER(SUBSTR("kategorie_bezeichnung", 5, 1))) AS bio_faktor FROM "User"
+    FULL JOIN "Angebot" ON "User"."userid"="Angebot"."userid_verkaeufer"
+    LEFT JOIN "Produkt_Angebot" USING ("angebotid")
+    LEFT JOIN "Produkt" USING ("produktid")
+    LEFT JOIN "Bio_Faktor" USING ("bioid")
+    GROUP BY "userid"
+    ORDER BY "userid" ASC;
+    
 /*********************************************************************
 /**
 /** Table (View): transaktion_per_saison
