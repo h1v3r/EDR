@@ -378,3 +378,52 @@ BEGIN
 -- EXCEPTION
 END;
 /
+
+
+/
+/*********************************************************************
+/**
+/** Procedure: sp_addProductOffer
+/** Out: l_v_error_ou - Eventual error message.
+/** In: l_n_angebotId_in - The id of the offer.
+/** In: l_n_produktId_in - The id of the produkt
+/** In: l_v_menge_in - The ammount of the prdukt. 
+/** Developer: Jakob Neuhauser
+/** Description: The procedure takes all arguments needet for a record in the table "Produkt_Angebot" and inserts the data into that table. 
+/**
+/*********************************************************************/
+
+CREATE OR REPLACE PROCEDURE sp_addProductOffer (l_n_angebotId_in IN NUMBER, l_n_produktId_in IN NUMBER, l_v_menge_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+
+  l_n_count NUMBER;
+
+BEGIN  
+  
+  SELECT COUNT(*) INTO l_n_count FROM "Angebot" WHERE "angebotid" = l_n_angebotId_in;
+  IF l_n_count = 0 THEN
+    l_v_error_ou := 'There is no angebotid ' || l_n_angebotId_in || '. Aborting!';
+    RETURN;
+  END IF; 
+
+  SELECT COUNT(*) INTO l_n_count FROM "Produkt" WHERE "produktid" = l_n_produktId_in;
+  IF l_n_count = 0 THEN
+    l_v_error_ou := 'There is no produktid ' || l_n_produktId_in || '. Aborting!';
+    RETURN;
+  END IF; 
+  
+  
+  INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge") VALUES (l_n_angebotId_in, l_n_produktId_in, l_v_menge_in);
+  
+  
+EXCEPTION 
+  WHEN no_data_found THEN 
+    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+  WHEN too_many_rows THEN 
+    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+  WHEN timeout_on_resource THEN 
+    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+  WHEN OTHERS THEN
+    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    
+ END;
+/
