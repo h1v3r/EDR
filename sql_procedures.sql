@@ -99,23 +99,25 @@ END;
 /** In: l_n_rollepk_in - rolleid of the user
 /** In: l_v_vorname_in - vorname of the user
 /** In: l_v_nachname_in - nachname of the user
-/** In: l_d_dob_in - date of birth of the user
+/** In: l_v_dob_in - date of birth of the user, following "YYYY-MM-DD"
 /** In: l_n_adressepk_in - adresseid of the user
 /** Developer: Albert Schleidt
 /** Description: Creates a new user, if it doesn't exist already.
 /**
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE sp_add_user (l_n_rollepk_in IN NUMBER, l_v_vorname_in IN VARCHAR, l_v_nachname_in IN VARCHAR, l_d_dob_in DATE, l_n_adressepk_in IN NUMBER, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
+CREATE OR REPLACE PROCEDURE sp_add_user (l_n_rollepk_in IN NUMBER, l_v_vorname_in IN VARCHAR, l_v_nachname_in IN VARCHAR, l_v_dob_in IN VARCHAR, l_n_adressepk_in IN NUMBER, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
     l_n_maxUserid NUMBER;
+    l_d_dob DATE;
 BEGIN
-    SELECT COUNT(*) INTO l_n_countEntries FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob_in AND "adresseid" = l_n_adressepk_in;
+    l_d_dob := TO_DATE(l_v_dob_in, 'YYYY-MM-DD');
+    SELECT COUNT(*) INTO l_n_countEntries FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob AND "adresseid" = l_n_adressepk_in;
     IF l_n_countEntries > 0 THEN
-    SELECT "userid" INTO l_n_pk_out FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob_in AND "adresseid" = l_n_adressepk_in;
+    SELECT "userid" INTO l_n_pk_out FROM "User" WHERE "rolleid" = l_n_rollepk_in AND "vorname" = l_v_vorname_in AND "nachname" = l_v_nachname_in AND "dob" = l_d_dob AND "adresseid" = l_n_adressepk_in;
         RETURN;
     ELSE
         SELECT MAX("userid") INTO l_n_maxUserid FROM "User";
-        INSERT INTO "User" VALUES (l_n_maxUserid+1, l_n_rollepk_in, l_v_vorname_in, l_v_nachname_in, l_d_dob_in, l_n_adressepk_in);
+        INSERT INTO "User" VALUES (l_n_maxUserid+1, l_n_rollepk_in, l_v_vorname_in, l_v_nachname_in, l_d_dob, l_n_adressepk_in);
         l_n_pk_out := l_n_maxUserid+1;
     END IF;
 EXCEPTION
