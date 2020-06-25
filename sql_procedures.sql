@@ -325,7 +325,20 @@ EXCEPTION
 /** Description: The Procedure changes the role of one User. 
 /*********************************************************************/
 CREATE OR REPLACE PROCEDURE sp_updateUserRolle (l_n_userId IN NUMBER, l_n_rolleId_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+    
+  l_v_tmp VARCHAR(2); 
 BEGIN
+
+  SELECT CASE WHEN EXISTS (
+    SELECT "rolleid" FROM "Rolle" WHERE "rolleid"=l_n_rolleId_in) 
+            THEN 'Y' 
+            ELSE 'N' 
+        END AS rec_exists INTO l_v_tmp
+  FROM dual;
+  
+  IF l_v_tmp = 'N' THEN
+    RAISE no_data_found; 
+  END IF; 
   UPDATE "User" SET "rolleid" = l_n_rolleId_in WHERE "userid" = l_n_userId; 
   
 EXCEPTION 
