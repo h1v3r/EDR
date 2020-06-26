@@ -17,35 +17,28 @@
     include("inc/default_inc.php");
     ?>
     <div class="container">
-        <h1>Search all the Offers after a text - NOT WORKING ATM</h1>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Searchtext</span>
+        <h1>Search Offers per Saison</h1>
+        <form action="search_offers_of_season.php" method="post">
+            <div class="form-group row">
+                <label for="inputSaisonId" class="col-sm-2 col-form-label">Saison ID</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputSaisonId" name="inputSaisonId" required>
+                </div>
             </div>
-            <input type="text" aria-label="input text" class="form-control" id="inputText">
-        </div>
+            <button type="submit" class="btn btn-outline-primary" name="searchSaison" value="searchSaison">Search</button>
+        </form>
 
-        <div id="output"></div>
+
+        <?php
+        echo "<br><br>";
+        if (!empty(filter_input(INPUT_POST, "searchSaison"))) {
+            require_once("utility/db_handler.php");
+            $saisonId = filter_input(INPUT_POST, "inputSaisonId");
+            $oracle_handler->show_cursor_offers_of_season($saisonId);
+        }
+        ?>
 
     </div>
-    <script>
-        $(function() {
-            document.querySelector("#inputText").addEventListener("keyup", (e) => {
-                $.get("inc/ajax_functions/searchOffers.php", {
-                    searchText: e.target.value
-                }, (data) => {
-                    console.log(data);
-                    if (data == "<table class='table table-hover'></table>") { //Empty table
-                        data = "No data found for that Searchtext";
-                    }
-
-                    document.querySelector("#output").innerHTML = data;
-                });
-            });
-        })
-    </script>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

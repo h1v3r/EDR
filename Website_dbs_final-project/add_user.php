@@ -62,9 +62,9 @@ if (!empty(filter_input(INPUT_POST, "addUser"))) {
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputGeburtstag" class="col-sm-2 col-form-label">Geburtstag</label>
+                <label for="inputGeburtstag" class="col-sm-2 col-form-label">Geburtstag [Format: 'YYYY-MM-DD']</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputGeburtstag" name="inputGeburtstag" required>
+                    <input type="text" class="form-control" id="inputGeburtstag" name="inputGeburtstag">
                 </div>
             </div>
             <div class="form-group row">

@@ -238,7 +238,7 @@ class oracle_db_handler
         $curs = oci_new_cursor($this->conn);
         $stid = $this->parseSql("begin :cursor := f_transaktion_userx(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $userid);
-        oci_bind_by_name($stid, ":p2", $errorOut, 100);
+        oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
         $stid = $this->executeParsedSql($stid);
 
@@ -253,7 +253,7 @@ class oracle_db_handler
         $curs = oci_new_cursor($this->conn);
         $stid = $this->parseSql("begin :cursor := f_Nachrichten_UserX(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $userid);
-        oci_bind_by_name($stid, ":p2", $errorOut, 100);
+        oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
         $stid = $this->executeParsedSql($stid);
 
@@ -262,20 +262,19 @@ class oracle_db_handler
         }
     }
 
-    // function show_cursor_offers_per_input($filterstring)
-    // {
-    //     $errorOut = "";
-    //     $curs = oci_new_cursor($this->conn);
-    //     $stid = $this->parseSql("begin :cursor := f_Nachrichten_UserX(:p1, :p2); end;");
-    //     oci_bind_by_name($stid, ":p1", $userid);
-    //     oci_bind_by_name($stid, ":p2", $errorOut, 100);
-    //     oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
-    //     $stid = $this->executeParsedSql($stid);
+    function show_cursor_filter_offers($filterstring)
+    {
+        $errorOut = "";
+        $curs = oci_new_cursor($this->conn);
+        $stid = $this->parseSql("begin :cursor := f_filter_ang_prodname_cur(:p1); end;");
+        oci_bind_by_name($stid, ":p1", $filterstring, 100);
+        oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
+        $stid = $this->executeParsedSql($stid);
 
-    //     if (!$this->errorHappened($errorOut)) {
-    //         $this->plotToTableCursor($curs);
-    //     }
-    // }
+        if (!$this->errorHappened($errorOut)) {
+            $this->plotToTableCursor($curs);
+        }
+    }
 
     function insert_ort($plz, $ortname)
     {
@@ -283,7 +282,7 @@ class oracle_db_handler
         oci_bind_by_name($stid, ":p1", $plz);
         oci_bind_by_name($stid, ":p2", $ortname);
         oci_bind_by_name($stid, ":p3", $pkOut, 20);
-        oci_bind_by_name($stid, ":p4", $errorOut, 100);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
@@ -300,7 +299,7 @@ class oracle_db_handler
         oci_bind_by_name($stid, ":p2", $strasse);
         oci_bind_by_name($stid, ":p3", $hausnummer);
         oci_bind_by_name($stid, ":p4", $pkOut, 20);
-        oci_bind_by_name($stid, ":p5", $errorOut, 100);
+        oci_bind_by_name($stid, ":p5", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
@@ -316,7 +315,7 @@ class oracle_db_handler
         oci_bind_by_name($stid, ":p1", $titel);
         oci_bind_by_name($stid, ":p2", $beschreibung);
         oci_bind_by_name($stid, ":p3", $pkOut, 20);
-        oci_bind_by_name($stid, ":p4", $errorOut, 100);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
@@ -332,10 +331,10 @@ class oracle_db_handler
         oci_bind_by_name($stid, ":p1", $rollePK);
         oci_bind_by_name($stid, ":p2", $vorname);
         oci_bind_by_name($stid, ":p3", $nachname);
-        oci_bind_by_name($stid, ":p4", $dob);
+        oci_bind_by_name($stid, ":p4", $dob, 20);
         oci_bind_by_name($stid, ":p5", $addressePK);
         oci_bind_by_name($stid, ":p6", $pkOut, 20);
-        oci_bind_by_name($stid, ":p7", $errorOut, 100);
+        oci_bind_by_name($stid, ":p7", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
@@ -359,7 +358,7 @@ class oracle_db_handler
         oci_bind_by_name($stid, ":p1", $useridSender);
         oci_bind_by_name($stid, ":p2", $useridEmpf);
         oci_bind_by_name($stid, ":p3", $inhalt);
-        oci_bind_by_name($stid, ":p4", $errorOut, 100);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
@@ -374,11 +373,107 @@ class oracle_db_handler
         $stid = $this->parseSql("begin sp_updateUserRolle(:p1, :p2, :p3); end;");
         oci_bind_by_name($stid, ":p1", $userid);
         oci_bind_by_name($stid, ":p2", $newRoleId);
-        oci_bind_by_name($stid, ":p3", $errorOut, 100);
+        oci_bind_by_name($stid, ":p3", $errorOut, 300);
         $stid = $this->executeParsedSql($stid);
 
         if (!$this->errorHappened($errorOut)) {
             return "Rolle updated!";
+        } else {
+            return "error";
+        }
+    }
+    // (l_n_angebotid_in IN NUMBER, l_n_useridKaeufer_in IN NUMBER, l_v_bewertungVerkaeuferT_in IN VARCHAR, l_n_bewertungVerkaeuferV_in IN NUMBER, l_v_bewertungKaeuferT_in IN VARCHAR, l_n_bewertungKaeuferV_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+    function add_transaction($angebotid, $useridKaeufer, $bewertungVerkaeuferT, $bewertungVerkaeuferV, $bewertungKaeuferT, $bewertungKaeuferV)
+    {
+        $stid = $this->parseSql("begin sp_addTransaction(:p1, :p2, :p3, :p4, :p5, :p6, :p7); end;");
+        oci_bind_by_name($stid, ":p1", $angebotid);
+        oci_bind_by_name($stid, ":p2", $useridKaeufer);
+        oci_bind_by_name($stid, ":p3", $bewertungVerkaeuferT);
+        oci_bind_by_name($stid, ":p4", $bewertungVerkaeuferV);
+        oci_bind_by_name($stid, ":p5", $bewertungKaeuferT);
+        oci_bind_by_name($stid, ":p6", $bewertungKaeuferV);
+        oci_bind_by_name($stid, ":p7", $errorOut, 300);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            return "Transaction added!";
+        } else {
+            return "error";
+        }
+    }
+
+    function delete_user($userid)
+    {
+        $stid = $this->parseSql("begin sp_delete_user(:p1, :p2); end;");
+        oci_bind_by_name($stid, ":p1", $userid);
+        oci_bind_by_name($stid, ":p2", $errorOut, 300);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            return "User deleted!";
+        } else {
+            return "error";
+        }
+    }
+
+    function add_product($saisonId, $bioId, $name)
+    {
+        $stid = $this->parseSql("begin sp_addProduct(:p1, :p2, :p3, :p4); end;");
+        oci_bind_by_name($stid, ":p1", $saisonId);
+        oci_bind_by_name($stid, ":p2", $bioId);
+        oci_bind_by_name($stid, ":p3", $name);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            return "Product added!";
+        } else {
+            return "error";
+        }
+    }
+
+    function show_cursor_offers_of_season($saisonId)
+    {
+        $errorOut = "";
+        $curs = oci_new_cursor($this->conn);
+        $stid = $this->parseSql("begin :cursor := f_angebote_saison(:p1, :p2); end;");
+        oci_bind_by_name($stid, ":p1", $saisonId);
+        oci_bind_by_name($stid, ":p2", $errorOut, 300);
+        oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            $this->plotToTableCursor($curs);
+        }
+    }
+
+    function add_offer($userIdVerkaeuf, $kategorieId, $anzeigetext)
+    {
+        $stid = $this->parseSql("begin sp_addOffer(:p1, :p2, :p3, :p4); end;");
+        oci_bind_by_name($stid, ":p1", $userIdVerkaeuf);
+        oci_bind_by_name($stid, ":p2", $kategorieId);
+        oci_bind_by_name($stid, ":p3", $anzeigetext);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            return "Offer added!";
+        } else {
+            return "error";
+        }
+    }
+
+    function add_product_to_offer($angebotId, $productId, $menge)
+    {
+        $stid = $this->parseSql("begin sp_addProductOffer(:p1, :p2, :p3, :p4); end;");
+        oci_bind_by_name($stid, ":p1", $angebotId);
+        oci_bind_by_name($stid, ":p2", $productId);
+        oci_bind_by_name($stid, ":p3", $menge);
+        oci_bind_by_name($stid, ":p4", $errorOut, 300);
+        $stid = $this->executeParsedSql($stid);
+
+        if (!$this->errorHappened($errorOut)) {
+            return "Added Product to the offer!";
         } else {
             return "error";
         }

@@ -47,6 +47,41 @@ $pageName = end($link_array);
                                         echo "active";
                                     } ?>" href="change_user_role.php">Change User Role</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "search_offers.php") {
+                                        echo "active";
+                                    } ?>" href="search_offers.php">Search Offers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "add_transaction.php") {
+                                        echo "active";
+                                    } ?>" href="add_transaction.php">Add Transaction</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "delete_user.php") {
+                                        echo "active";
+                                    } ?>" href="delete_user.php">Delete User</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "add_product.php") {
+                                        echo "active";
+                                    } ?>" href="add_product.php">Add Product</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "search_offers_of_season.php") {
+                                        echo "active";
+                                    } ?>" href="search_offers_of_season.php">Search Offers of Season</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "add_offer.php") {
+                                        echo "active";
+                                    } ?>" href="add_offer.php">Add Offer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if ($pageName == "add_product_to_offer.php") {
+                                        echo "active";
+                                    } ?>" href="add_product_to_offer.php">Add Product to Offer</a>
+            </li>
         </ul>
     </div>
 </nav>

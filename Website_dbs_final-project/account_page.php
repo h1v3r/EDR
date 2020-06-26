@@ -22,6 +22,7 @@
         <h1>Hello <?= $_SESSION["logged_Username"]; ?>!</h1>
         <h5 class="bg-info">Vorwort: Da es hier hauptsächlich um die Datenbankprogrammierung geht und nicht darum, eine perfekte Webseite zu machen, wurden einige Features nicht implementiert, die eine echte Webseite haben würde.
             <br><br>Beispielweise: Es sollte nicht immer die UserID eingegeben werden, sondern ein Select auf alle Users gemacht werden und dann in einer dropbox diese zum auswählen zur Verfügung stehen.
+            <br>Oder es sollte eine Seite geben, in der direkt das Produkt mit dem neuem Angebot verlinkt wird und nicht extra zwei.
             <br><br>Zusätzlich dazu ist das nicht hier die Seite, die User bekommen würden, da sie sonst alle Sachen zur Verfügung hätten. Dies ist eher für so etwas wie Admins gedacht, damit diese alles verwenden können.
             <br><br>Gerne hätte ich mehr gemacht, da dies aber nicht die eigentliche Aufgabe war und ich nicht weiters Unterstützung erhalte. verzichte ich auf das extra Gold Plating.
         </h5>

@@ -1,3 +1,15 @@
+<?php
+$message = "";
+if (!empty(filter_input(INPUT_POST, "deleteUser"))) {
+    require_once("utility/db_handler.php");
+    $userId = filter_input(INPUT_POST, "inputUserId");
+
+    $message = $oracle_handler->delete_user($userId);
+}
+
+?>
+
+
 <!DOCTYPE html>
 
 <html>
@@ -17,35 +29,24 @@
     include("inc/default_inc.php");
     ?>
     <div class="container">
-        <h1>Search all the Offers after a text - NOT WORKING ATM</h1>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Searchtext</span>
+
+        <?php
+        if (!empty($message)) {
+            echo '<div class="alert alert-info" role="alert"><h3>' . $message . '</h3></div>';
+        }
+        ?>
+
+        <h1>Delete User - Warning: This can not be undone</h1>
+        <form action="delete_user.php" method="post">
+            <div class="form-group row">
+                <label for="inputUserId" class="col-sm-2 col-form-label">UserID</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputUserId" name="inputUserId" required>
+                </div>
             </div>
-            <input type="text" aria-label="input text" class="form-control" id="inputText">
-        </div>
-
-        <div id="output"></div>
-
+            <button type="submit" class="btn btn-outline-primary" name="deleteUser" value="deleteUser">Delete User</button>
+        </form>
     </div>
-    <script>
-        $(function() {
-            document.querySelector("#inputText").addEventListener("keyup", (e) => {
-                $.get("inc/ajax_functions/searchOffers.php", {
-                    searchText: e.target.value
-                }, (data) => {
-                    console.log(data);
-                    if (data == "<table class='table table-hover'></table>") { //Empty table
-                        data = "No data found for that Searchtext";
-                    }
-
-                    document.querySelector("#output").innerHTML = data;
-                });
-            });
-        })
-    </script>
-
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
