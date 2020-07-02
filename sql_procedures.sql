@@ -383,8 +383,6 @@ EXCEPTION
 END;
 /
 
-
-/
 /*********************************************************************
 /**
 /** Procedure: sp_addProductOffer
@@ -396,7 +394,6 @@ END;
 /** Description: The procedure takes all arguments needet for a record in the table "Produkt_Angebot" and inserts the data into that table. 
 /**
 /*********************************************************************/
-/
 CREATE OR REPLACE PROCEDURE sp_addProductOffer (l_n_angebotId_in IN NUMBER, l_n_produktId_in IN NUMBER, l_n_menge_in IN NUMBER, l_v_error_out OUT VARCHAR) AS
 
   l_n_count NUMBER;
