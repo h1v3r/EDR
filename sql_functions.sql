@@ -28,7 +28,7 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE FUNCTION f_transaktion_userx (i_n_userid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
+CREATE OR REPLACE FUNCTION f_transaktion_userx_cur (i_n_userid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
 AS
 
 rc SYS_REFCURSOR;
@@ -58,7 +58,7 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE FUNCTION f_Nachrichten_UserX (i_n_userid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
+CREATE OR REPLACE FUNCTION f_Nachrichten_UserX_cur (i_n_userid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR 
 AS
 
 rc SYS_REFCURSOR;

@@ -9,7 +9,7 @@ v_trans_text VARCHAR(255);
 xxx VARCHAR(255);
 
 BEGIN
-test := f_transaktion_userx(10004,xxx);
+test := f_transaktion_userx_cur(10004,xxx);
 
 LOOP
 FETCH test INTO v_trans_id, v_trans_vk_id, v_trans_text;
@@ -39,7 +39,7 @@ v_mes_time DATE;
 xxx VARCHAR(255);
 
 BEGIN
-test := f_Nachrichten_UserX(10002, xxx);
+test := f_Nachrichten_UserX_cur(10002, xxx);
 
 LOOP
 FETCH test INTO v_mes_vn, v_mes_nn, v_mes_text,v_mes_time;
@@ -49,7 +49,7 @@ dbms_output.put_line(v_mes_vn||v_mes_nn||v_mes_text||v_mes_time);
 END LOOP;
 END;
 /
--- Test Select f�r die f_Nachrichten_UserX
+-- Test Select f�r die f_Nachrichten_UserX_cur
 SELECT empf."vorname", empf."nachname", n."inhalt", n."message_time" FROM "User" s
 	LEFT JOIN "Nachrichten" n ON s."userid" = n."userid_sender"
 	LEFT JOIN "User" empf ON n."userid_empf" = empf."userid"

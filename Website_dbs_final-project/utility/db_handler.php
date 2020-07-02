@@ -236,7 +236,7 @@ class oracle_db_handler
     {
         $errorOut = "";
         $curs = oci_new_cursor($this->conn);
-        $stid = $this->parseSql("begin :cursor := f_transaktion_userx(:p1, :p2); end;");
+        $stid = $this->parseSql("begin :cursor := f_transaktion_userx_cur(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $userid);
         oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
@@ -251,7 +251,7 @@ class oracle_db_handler
     {
         $errorOut = "";
         $curs = oci_new_cursor($this->conn);
-        $stid = $this->parseSql("begin :cursor := f_Nachrichten_UserX(:p1, :p2); end;");
+        $stid = $this->parseSql("begin :cursor := f_Nachrichten_UserX_cur(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $userid);
         oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
