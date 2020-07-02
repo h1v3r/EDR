@@ -20,7 +20,7 @@ END;
 
 /*********************************************************************
 /**
-/** Function: Transaktionen_UserX
+/** Function: f_transaktion_userx_cur
 /** In: UserID ? ID des Users der seine Transaktionen sehen will.
 /** Returns: Cursor der alle Transaktionen auflistet diese Users Values: Transaktionsid, Userid_verk�ufer und der Anzeigetext
 /** Developer: Florian Weiss
@@ -50,7 +50,7 @@ END;
 
 /*********************************************************************
 /**
-/** Function: Nachrichten_UserX
+/** Function: f_Nachrichten_UserX_cur
 /** In: UserID ? ID des Users der seine Nachrichten sehen will.
 /** Returns: Cursor der alle Nachriten auflistet die der User versendet hat Values: Vorname empf�nger, Nachname Empf�nger, Text und Timestamp
 /** Developer: Florian Weiss
@@ -80,7 +80,7 @@ END;
 
 /*********************************************************************
 /**
-/** Function: Angebote_Saison
+/** Function: f_angebote_saison
 /** In: SaisonId ? ID der gew�nschten Saison 
 /** Returns: Cursor der alle Angebote einer saison zur�ck liefert
 /** Developer: Florian Weiss
