@@ -9,9 +9,9 @@
 /*********************************************************************/
 /
 --The following inserts are mandatory! They should also be found in the insert script. 
---INSERT INTO "Ort" ("plz", "name") VALUES (0, 'System Ort'); 
---INSERT INTO "Adresse" ("adresseid", "plz", "strasse", "hausnummer") VALUES (0, 0, 'Systemgasse', 0);
---INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "adresseid") VALUES (0, 3, 'EDR', 'System', 0);
+--INSERT INTO "Ort" ("plz", "name") VALUES (1, 'System Ort'); 
+--INSERT INTO "Adresse" ("adresseid", "plz", "strasse", "hausnummer") VALUES (1, 1, 'Systemgasse', 1);
+--INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "adresseid") VALUES (1, 3, 'EDR', 'System', 1);
 
 /
 CREATE OR REPLACE TRIGGER tr_br_i_welcomeMessage
