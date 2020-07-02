@@ -3,8 +3,8 @@ SET SERVEROUTPUT ON;
 ---Function testen
 DECLARE
 test SYS_REFCURSOR;
-v_trans_id number;
-v_trans_vk_id number;
+v_trans_id NUMBER;
+v_trans_vk_id NUMBER;
 v_trans_text VARCHAR(255);
 xxx VARCHAR(255);
 

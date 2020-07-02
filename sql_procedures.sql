@@ -15,7 +15,7 @@ SET serveroutput ON;
 CREATE OR REPLACE PROCEDURE sp_add_ort (l_n_plz_in IN NUMBER, l_v_ortsname_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
 BEGIN
-    SELECT count(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in AND "name" = l_v_ortsname_in;
+    SELECT COUNT(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in AND "name" = l_v_ortsname_in;
     IF l_n_countEntries > 0 THEN
         l_n_pk_out := l_n_plz_in;
         RETURN;
@@ -155,7 +155,7 @@ BEGIN
     RETURN;
   END IF;
 
-  SELECT max("produktid")+1 INTO l_n_produktid FROM "Produkt";
+  SELECT MAX("produktid")+1 INTO l_n_produktid FROM "Produkt";
   INSERT INTO "Produkt" ("produktid", "saisonid", "bioid", "name") VALUES (l_n_produktid, l_n_saisonid_in, l_n_bioid_in, l_v_name_in);
 
 EXCEPTION
@@ -377,7 +377,9 @@ BEGIN
   UPDATE "Nachrichten" SET "userid_empf" = l_n_demouserid WHERE "userid_empf" = l_n_userid_in;
 
   DELETE FROM "User" WHERE "userid" = l_n_userid_in;
--- EXCEPTION
+EXCEPTION
+  WHEN others THEN
+        l_n_error_out := SQLCODE;
 END;
 /
 

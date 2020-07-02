@@ -221,10 +221,10 @@ CREATE TABLE "User_Rolle_Log"
 (
     "logid" NUMBER, 
     "userid" NUMBER, 
-    "rolleid_alt" number, 
-    "rolleid_neu" number, 
+    "rolleid_alt" NUMBER, 
+    "rolleid_neu" NUMBER, 
     "time" TIMESTAMP, 
-    "aktion" varchar(10), 
+    "aktion" VARCHAR(10), 
     PRIMARY KEY("logid")
 );
 
