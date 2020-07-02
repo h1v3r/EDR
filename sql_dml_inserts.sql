@@ -167,10 +167,10 @@ INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge")
 /** Discription: Create a User System. Is needed for a trigger. 
 /*********************************************************************/
 INSERT INTO "Ort" ("plz", "name") 
-    VALUES (0, 'System Ort'); 
+    VALUES (1, 'System Ort'); 
 INSERT INTO "Adresse" ("adresseid", "plz", "strasse", "hausnummer") 
-    VALUES (0, 0, 'Systemgasse', 0);
+    VALUES (1, 1, 'Systemgasse', 1);
 INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "adresseid") 
-    VALUES (0, 3, 'EDR', 'System', 0);
+    VALUES (1, 3, 'EDR', 'System', 1);
 
 COMMIT;
