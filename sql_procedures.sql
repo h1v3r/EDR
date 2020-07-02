@@ -138,20 +138,20 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE PROCEDURE sp_addProduct (l_n_saisonid_in IN NUMBER, l_n_bioid_in IN NUMBER, l_v_name_in IN VARCHAR, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_addProduct (l_n_saisonid_in IN NUMBER, l_n_bioid_in IN NUMBER, l_v_name_in IN VARCHAR, l_v_error_out OUT VARCHAR) AS
   l_n_produktid NUMBER;
   l_n_count NUMBER;
 BEGIN  
 
   SELECT COUNT(*) INTO l_n_count FROM "Saison" WHERE "saisonid" = l_n_saisonid_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no saisonid ' || l_n_saisonid_in || '. Aborting!';
+    l_v_error_out := 'There is no saisonid ' || l_n_saisonid_in || '. Aborting!';
     RETURN;
   END IF; 
   
   SELECT COUNT(*) INTO l_n_count FROM "Bio_Faktor" WHERE "bioid" = l_n_bioid_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no bioid ' || l_n_bioid_in || '. Aborting!';
+    l_v_error_out := 'There is no bioid ' || l_n_bioid_in || '. Aborting!';
     RETURN;
   END IF;
 
@@ -160,13 +160,13 @@ BEGIN
 
 EXCEPTION
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
 
 END;
 /
@@ -183,20 +183,20 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE PROCEDURE sp_addOffer (l_n_useridVerkaeufer_in IN NUMBER, l_n_kategorieid_in IN NUMBER, l_v_anzeigetext_in IN VARCHAR, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_addOffer (l_n_useridVerkaeufer_in IN NUMBER, l_n_kategorieid_in IN NUMBER, l_v_anzeigetext_in IN VARCHAR, l_v_error_out OUT VARCHAR) AS
   l_n_angebotid NUMBER;
   l_n_count NUMBER;
 BEGIN  
   
   SELECT COUNT(*) INTO l_n_count FROM "User" WHERE "userid" = l_n_useridVerkaeufer_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no userid ' || l_n_useridVerkaeufer_in || '. Aborting!';
+    l_v_error_out := 'There is no userid ' || l_n_useridVerkaeufer_in || '. Aborting!';
     RETURN;
   END IF; 
   
   SELECT COUNT(*) INTO l_n_count FROM "Angebotskategorie" WHERE "kategorieid" = l_n_kategorieid_in; 
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no kategorieid ' || l_n_kategorieid_in || '. Aborting!';
+    l_v_error_out := 'There is no kategorieid ' || l_n_kategorieid_in || '. Aborting!';
     RETURN;
   END IF;
 
@@ -205,13 +205,13 @@ BEGIN
 
 EXCEPTION
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
  END;
 /
@@ -231,20 +231,20 @@ EXCEPTION
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE PROCEDURE sp_addTransaction (l_n_angebotid_in IN NUMBER, l_n_useridKaeufer_in IN NUMBER, l_v_bewertungVerkaeuferT_in IN VARCHAR, l_n_bewertungVerkaeuferV_in IN NUMBER, l_v_bewertungKaeuferT_in IN VARCHAR, l_n_bewertungKaeuferV_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_addTransaction (l_n_angebotid_in IN NUMBER, l_n_useridKaeufer_in IN NUMBER, l_v_bewertungVerkaeuferT_in IN VARCHAR, l_n_bewertungVerkaeuferV_in IN NUMBER, l_v_bewertungKaeuferT_in IN VARCHAR, l_n_bewertungKaeuferV_in IN NUMBER, l_v_error_out OUT VARCHAR) AS
   l_n_transaktionid NUMBER;
   l_n_count NUMBER;
 BEGIN  
   
   SELECT COUNT(*) INTO l_n_count FROM "Angebot" WHERE "angebotid" = l_n_angebotid_in; 
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no angebotid ' || l_n_angebotid_in || '. Aborting!';
+    l_v_error_out := 'There is no angebotid ' || l_n_angebotid_in || '. Aborting!';
     RETURN;
   END IF;
 
   SELECT COUNT(*) INTO l_n_count FROM "User" WHERE "userid" = l_n_useridKaeufer_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no userid ' || l_n_useridKaeufer_in || '. Aborting!';
+    l_v_error_out := 'There is no userid ' || l_n_useridKaeufer_in || '. Aborting!';
     RETURN;
   END IF; 
 
@@ -253,13 +253,13 @@ BEGIN
 
 EXCEPTION 
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
  END;
 /
@@ -276,7 +276,7 @@ EXCEPTION
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE PROCEDURE sp_sendMessage (l_n_useridSender_in IN NUMBER, l_n_useridEmpf_in IN NUMBER, l_v_inhalt_in IN VARCHAR, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_sendMessage (l_n_useridSender_in IN NUMBER, l_n_useridEmpf_in IN NUMBER, l_v_inhalt_in IN VARCHAR, l_v_error_out OUT VARCHAR) AS
   l_n_nachrichtenid NUMBER;
   l_n_count NUMBER;
   l_d_now TIMESTAMP; 
@@ -284,13 +284,13 @@ BEGIN
   
   SELECT COUNT(*) INTO l_n_count FROM "User" WHERE "userid" = l_n_useridSender_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no userid ' || l_n_useridSender_in || '. Aborting!';
+    l_v_error_out := 'There is no userid ' || l_n_useridSender_in || '. Aborting!';
     RETURN;
   END IF; 
 
   SELECT COUNT(*) INTO l_n_count FROM "User" WHERE "userid" = l_n_useridEmpf_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no userid ' || l_n_useridEmpf_in || '. Aborting!';
+    l_v_error_out := 'There is no userid ' || l_n_useridEmpf_in || '. Aborting!';
     RETURN;
   END IF; 
   
@@ -306,13 +306,13 @@ BEGIN
   
 EXCEPTION 
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
  END;
 /
@@ -321,12 +321,12 @@ EXCEPTION
 /**
 /** Procedure: sp_updateUserRolle
 /** Out: l_v_error_out - Eventual error message.
-/** In: l_n_userId - The Userid of the user whom I wnat to change the role. 
-/** In: l_n_roleId - The id of the role to which I want to change.  
+/** In: l_n_userId_in - The Userid of the user whom I wnat to change the role. 
+/** In: l_n_rolleId_in - The id of the role to which I want to change.  
 /** Developer: Jakob Neuhauser
 /** Description: The Procedure changes the role of one User. 
 /*********************************************************************/
-CREATE OR REPLACE PROCEDURE sp_updateUserRolle (l_n_userId IN NUMBER, l_n_rolleId_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_updateUserRolle (l_n_userId_in IN NUMBER, l_n_rolleId_in IN NUMBER, l_v_error_out OUT VARCHAR) AS
     
   l_v_tmp VARCHAR(2); 
 BEGIN
@@ -341,17 +341,17 @@ BEGIN
   IF l_v_tmp = 'N' THEN
     RAISE no_data_found; 
   END IF; 
-  UPDATE "User" SET "rolleid" = l_n_rolleId_in WHERE "userid" = l_n_userId; 
+  UPDATE "User" SET "rolleid" = l_n_rolleId_in WHERE "userid" = l_n_userId_in; 
   
 EXCEPTION 
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
 END;
 /
@@ -388,7 +388,7 @@ END;
 /*********************************************************************
 /**
 /** Procedure: sp_addProductOffer
-/** Out: l_v_error_ou - Eventual error message.
+/** Out: l_v_error_out - Eventual error message.
 /** In: l_n_angebotId_in - The id of the offer.
 /** In: l_n_produktId_in - The id of the produkt
 /** In: l_v_menge_in - The ammount of the prdukt. 
@@ -397,7 +397,7 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE PROCEDURE sp_addProductOffer (l_n_angebotId_in IN NUMBER, l_n_produktId_in IN NUMBER, l_v_menge_in IN NUMBER, l_v_error_ou OUT VARCHAR) AS
+CREATE OR REPLACE PROCEDURE sp_addProductOffer (l_n_angebotId_in IN NUMBER, l_n_produktId_in IN NUMBER, l_n_menge_in IN NUMBER, l_v_error_out OUT VARCHAR) AS
 
   l_n_count NUMBER;
 
@@ -405,29 +405,29 @@ BEGIN
   
   SELECT COUNT(*) INTO l_n_count FROM "Angebot" WHERE "angebotid" = l_n_angebotId_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no angebotid ' || l_n_angebotId_in || '. Aborting!';
+    l_v_error_out := 'There is no angebotid ' || l_n_angebotId_in || '. Aborting!';
     RETURN;
   END IF; 
 
   SELECT COUNT(*) INTO l_n_count FROM "Produkt" WHERE "produktid" = l_n_produktId_in;
   IF l_n_count = 0 THEN
-    l_v_error_ou := 'There is no produktid ' || l_n_produktId_in || '. Aborting!';
+    l_v_error_out := 'There is no produktid ' || l_n_produktId_in || '. Aborting!';
     RETURN;
   END IF; 
   
   
-  INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge") VALUES (l_n_angebotId_in, l_n_produktId_in, l_v_menge_in);
+  INSERT INTO "Produkt_Angebot" ("produktid", "angebotid", "menge") VALUES (l_n_angebotId_in, l_n_produktId_in, l_n_menge_in);
   
   
 EXCEPTION 
   WHEN no_data_found THEN 
-    l_v_error_ou := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
+    l_v_error_out := 'No Data Found!    ' ||  SUBSTR(SQLERRM, 1, 200); 
   WHEN too_many_rows THEN 
-    l_v_error_ou := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Got too many rows!    ' || SUBSTR(SQLERRM, 1, 200);
   WHEN timeout_on_resource THEN 
-    l_v_error_ou := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Timeout....!'    ||  SUBSTR(SQLERRM, 1, 200);
   WHEN OTHERS THEN
-    l_v_error_ou := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
+    l_v_error_out := 'Some unknown error occoured!'    ||  SUBSTR(SQLERRM, 1, 200);
     
  END;
 /
