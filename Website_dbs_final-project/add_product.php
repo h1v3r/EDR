@@ -58,7 +58,7 @@ if (!empty(filter_input(INPUT_POST, "addProduct"))) {
                     <input type="text" class="form-control" id="inputProductName" name="inputProductName" required>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary" name="addProduct" value="addProduct">Delete User</button>
+            <button type="submit" class="btn btn-outline-primary" name="addProduct" value="addProduct">Add Product</button>
         </form>
     </div>
 

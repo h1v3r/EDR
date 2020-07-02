@@ -10,7 +10,7 @@ if (!empty(filter_input(INPUT_POST, "addUser"))) {
     $strasse = filter_input(INPUT_POST, "inputStrasse");
     $hausnummer = filter_input(INPUT_POST, "inputHausnummer");
 
-    $geburtstag = ""; //Format mit Geburtstag ist noch falsch - deswegen hier auf nichts gesetzt
+    // $geburtstag = ""; //Format mit Geburtstag ist noch falsch - deswegen hier auf nichts gesetzt
 
     $message = $oracle_handler->add_User($vorname, $nachname, $geburtstag, 1, $plz, $ort, $strasse, $hausnummer);
 }

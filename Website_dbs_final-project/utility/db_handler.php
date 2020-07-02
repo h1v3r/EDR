@@ -117,51 +117,10 @@ class oracle_db_handler
         echo "</table>";
     }
 
-
-    function testSql()
-    {
-        $stid = $this->parseSql('SELECT * FROM test');
-        $stid = $this->executeParsedSql($stid);
-        $this->plotToTable($stid);
-    }
-
-    function testInsert($value)
-    {
-        $stid = $this->executeParsedSql($this->parseSql('INSERT INTO test VALUES(' . $value . ')'));
-    }
-
     function selectUserTable()
     {
         $stid = $this->executeParsedSql($this->parseSql('SELECT * FROM "User"'));
         $this->plotToTable($stid);
-    }
-
-    function testProcedure()
-    {
-        $p1 = 6;
-        $stid = $this->parseSql("begin myproc(:p1, :p2); end;");
-        oci_bind_by_name($stid, ":p1", $p1);
-        oci_bind_by_name($stid, ":p2", $p2, 420);
-        $stid = $this->executeParsedSql($stid);
-        echo "p1: $p1 / p2: $p2\n";
-    }
-
-    function testCursorFunction()
-    {
-        $stid = $this->parseSql("SElECT myfunc(20) AS mfrc FROM dual");
-        $stid = $this->executeParsedSql($stid);
-        echo "<table class='table table-hover'>";
-        while (($row = oci_fetch_array($stid, OCI_ASSOC))) {
-            echo "<tr>";
-            $rc = $row['MFRC'];
-            oci_execute($rc);  // returned column value from the query is a ref cursor
-            while (($rc_row = oci_fetch_array($rc, OCI_ASSOC))) {
-                echo "    <td>" . $rc_row['TESTDATA'] . "</td>";
-            }
-            oci_free_statement($rc);
-            echo "</tr>";
-        }
-        echo "</table>";
     }
 
     function show_view_transPerSaison()
@@ -266,9 +225,8 @@ class oracle_db_handler
     {
         $errorOut = "";
         $curs = oci_new_cursor($this->conn);
-        $stid = $this->parseSql("begin :cursor := f_filter_ang_prodname_cur(:p1, :p2); end;");
+        $stid = $this->parseSql("begin :cursor := f_filter_ang_prodname_cur(:p1); end;");
         oci_bind_by_name($stid, ":p1", $filterstring, 100);
-        oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
         $stid = $this->executeParsedSql($stid);
 
