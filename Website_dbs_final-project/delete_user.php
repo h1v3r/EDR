@@ -41,7 +41,7 @@ if (!empty(filter_input(INPUT_POST, "deleteUser"))) {
             <div class="form-group row">
                 <label for="inputUserId" class="col-sm-2 col-form-label">UserID</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputUserId" name="inputUserId" required>
+                    <input type="number" class="form-control" id="inputUserId" name="inputUserId" required>
                 </div>
             </div>
             <button type="submit" class="btn btn-outline-primary" name="deleteUser" value="deleteUser">Delete User</button>

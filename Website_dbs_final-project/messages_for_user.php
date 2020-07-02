@@ -22,7 +22,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">User Id</span>
             </div>
-            <input type="text" aria-label="Input ID" class="form-control" id="inputid">
+            <input type="number" aria-label="Input ID" class="form-control" id="inputid">
         </div>
 
         <div id="output"></div>

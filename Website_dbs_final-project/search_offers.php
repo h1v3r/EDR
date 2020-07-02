@@ -17,7 +17,7 @@
     include("inc/default_inc.php");
     ?>
     <div class="container">
-        <h1>Search all the Offers after a text - NOT WORKING ATM</h1>
+        <h1>Search all the Offers after a text in their name</h1>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Searchtext</span>

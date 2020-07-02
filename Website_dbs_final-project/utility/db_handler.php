@@ -35,8 +35,8 @@ END;
   END;
 */
 
-define("USERNAME", "testpaul");
-define("PASSWORD", "test");
+define("USERNAME", "edr_user5");
+define("PASSWORD", "oracle");
 define("CONNECTIONSTRING", "localhost:11521");
 
 class oracle_db_handler
