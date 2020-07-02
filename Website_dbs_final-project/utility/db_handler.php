@@ -266,8 +266,9 @@ class oracle_db_handler
     {
         $errorOut = "";
         $curs = oci_new_cursor($this->conn);
-        $stid = $this->parseSql("begin :cursor := f_filter_ang_prodname_cur(:p1); end;");
+        $stid = $this->parseSql("begin :cursor := f_filter_ang_prodname_cur(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $filterstring, 100);
+        oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);
         $stid = $this->executeParsedSql($stid);
 

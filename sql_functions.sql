@@ -7,12 +7,14 @@
 /** Description: Takes an input string, shows every Angebot that offers a Produkt containing the string. Returns a SYS_REFCURSOR.
 /**
 /*********************************************************************/
-CREATE OR REPLACE FUNCTION f_filter_ang_prodname_cur (l_v_suchstring_in IN VARCHAR) RETURN SYS_REFCURSOR AS
+CREATE OR REPLACE FUNCTION f_filter_ang_prodname_cur (l_v_suchstring_in IN VARCHAR, l_v_error_out OUT NUMBER) RETURN SYS_REFCURSOR AS
     l_return_cursor_cur_out SYS_REFCURSOR;
 BEGIN
-    OPEN l_return_cursor_cur_out for SELECT * FROM "Angebot" JOIN "Produkt_Angebot" USING ("angebotid") JOIN "Produkt" USING ("produktid") WHERE "name" LIKE '%'||l_v_suchstring_in||'%';
+    OPEN l_return_cursor_cur_out FOR SELECT * FROM "Angebot" JOIN "Produkt_Angebot" USING ("angebotid") JOIN "Produkt" USING ("produktid") WHERE "name" LIKE '%'||l_v_suchstring_in||'%';
     RETURN l_return_cursor_cur_out;
---EXCEPTION
+EXCEPTION
+    WHEN others THEN
+        l_n_error_out := SQLCODE;
 END;
 /
 
