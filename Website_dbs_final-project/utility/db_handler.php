@@ -396,7 +396,7 @@ class oracle_db_handler
     {
         $errorOut = "";
         $curs = oci_new_cursor($this->conn);
-        $stid = $this->parseSql("begin :cursor := f_angebote_saison(:p1, :p2); end;");
+        $stid = $this->parseSql("begin :cursor := f_angebote_saison_cur(:p1, :p2); end;");
         oci_bind_by_name($stid, ":p1", $saisonId);
         oci_bind_by_name($stid, ":p2", $errorOut, 300);
         oci_bind_by_name($stid, ":cursor", $curs, -1, OCI_B_CURSOR);

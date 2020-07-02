@@ -1,6 +1,6 @@
 /*********************************************************************
 /**
-/** Trigger: tr_br_welcomeMessage
+/** Trigger: tr_br_i_welcomeMessage
 /** Type: Before row
 /** Type Extension: insert
 /** Developer: Jakob Neuhauser
@@ -14,7 +14,7 @@
 --INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "adresseid") VALUES (0, 3, 'EDR', 'System', 0);
 
 /
-CREATE OR REPLACE TRIGGER tr_welcomeMessage_v
+CREATE OR REPLACE TRIGGER tr_br_i_welcomeMessage
   AFTER INSERT ON "User"
   FOR EACH ROW 
 DECLARE
@@ -42,14 +42,14 @@ END;
 /
 /*********************************************************************
 /**
-/** Trigger: tr_br_deleteUserCompletely
+/** Trigger: tr_br_d_deleteUserCompletely
 /** Type: Before row
 /** Type Extension: delete
 /** Developer: Jakob Neuhauser
 /** Description: Deletes everything related to a User. 
 /**
 /*********************************************************************/
-CREATE OR REPLACE TRIGGER tr_br_deleteUserCompletely
+CREATE OR REPLACE TRIGGER tr_br_d_deleteUserCompletely
   BEFORE DELETE ON "User"
   FOR EACH ROW  
 DECLARE 
@@ -76,7 +76,7 @@ END;
 /
 /*********************************************************************
 /**
-/** Trigger: tr_ar_logUserRole
+/** Trigger: tr_ar_diu_logUserRole
 /** Type: After row
 /** Type Extension: update or insert or delete
 /** Developer: Jakob Neuhauser
@@ -84,7 +84,7 @@ END;
 /**
 /*********************************************************************/
 
-CREATE OR REPLACE TRIGGER tr_ar_logUserRolle
+CREATE OR REPLACE TRIGGER tr_ar_diu_logUserRole
   BEFORE DELETE OR INSERT OR UPDATE ON "User"
   FOR EACH ROW 
 DECLARE 
@@ -121,14 +121,14 @@ END;
 /
 /*********************************************************************
 /**
-/** Trigger: tr_br_checkOfferAmmount
+/** Trigger: tr_br_i_checkOfferAmmount
 /** Type: Before row
 /** Type Extension: insert
 /** Developer: Jakob Neuhauser
 /** Description: Checks if the "Menge" of an offer is at least 5. 
 /**
 /*********************************************************************/
-CREATE OR REPLACE TRIGGER tr_br_checkOfferAmmount
+CREATE OR REPLACE TRIGGER tr_br_i_checkOfferAmmount
   BEFORE INSERT ON "Produkt_Angebot"
   FOR EACH ROW  
 BEGIN

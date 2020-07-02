@@ -80,14 +80,14 @@ END;
 
 /*********************************************************************
 /**
-/** Function: f_angebote_saison
+/** Function: f_angebote_saison_cur
 /** In: SaisonId ? ID der gew�nschten Saison 
 /** Returns: Cursor der alle Angebote einer saison zur�ck liefert
 /** Developer: Florian Weiss
 /** Description: Diese Funktion Liefert einen Cursor mit allen Angeboten die einer bestimmten Saison zugewiesen sind. 
 /**
 /*********************************************************************/
-CREATE OR REPLACE FUNCTION f_angebote_saison (i_in_sid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR
+CREATE OR REPLACE FUNCTION f_angebote_saison_cur (i_in_sid IN NUMBER, l_v_error_ou OUT VARCHAR) RETURN SYS_REFCURSOR
 AS
 
 rc SYS_REFCURSOR;
