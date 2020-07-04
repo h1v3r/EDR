@@ -369,7 +369,7 @@ CREATE OR REPLACE PROCEDURE sp_delete_user (l_n_userid_in IN NUMBER, l_n_error_o
   l_n_demouserid NUMBER;
   l_n_add_user_error NUMBER;
 BEGIN
-  sp_add_user(1, 'DELETED', 'USER', TO_DATE('2000/06/09', 'yyyy/mm/dd'), 107, l_n_demouserid, l_n_add_user_error);
+  sp_add_user(1, 'DELETED', 'USER', '2000-06-06', 107, l_n_demouserid, l_n_add_user_error);
 
   UPDATE "Angebot" SET "userid_verkaeufer" = l_n_demouserid WHERE "userid_verkaeufer" = l_n_userid_in;
   UPDATE "Transaktion" SET "userid_kaeufer" = l_n_demouserid WHERE "userid_kaeufer" = l_n_userid_in;
