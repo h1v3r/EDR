@@ -69,6 +69,7 @@ INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "dob", "adressei
     VALUES (10003, 1, 'Sam', 'Milker', to_date('02.07.1988','DD.MM.YYYY'), 106);
 INSERT INTO "User" ("userid", "rolleid", "vorname", "nachname", "dob", "adresseid")
     VALUES (10004, 1, 'Meredith', 'Porster', to_date('31.05.2001','DD.MM.YYYY'), 104);
+INSERT INTO "User" VALUES (0, 1, 'SYSTEM', 'USER', TO_DATE('2010-01-01', 'YYYY-MM-DD'), 107);
 
 /*********************************************************************/
 /** Table: Nachrichten
