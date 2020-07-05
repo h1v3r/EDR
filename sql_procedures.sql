@@ -15,7 +15,7 @@ SET serveroutput ON;
 CREATE OR REPLACE PROCEDURE sp_add_ort (l_n_plz_in IN NUMBER, l_v_ortsname_in IN VARCHAR, l_n_pk_out OUT NUMBER, l_n_error_out OUT NUMBER) AS
     l_n_countEntries NUMBER;
 BEGIN
-    SELECT COUNT(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in AND "name" = l_v_ortsname_in;
+    SELECT COUNT(*) INTO l_n_countEntries FROM "Ort" WHERE "plz" = l_n_plz_in;
     IF l_n_countEntries > 0 THEN
         l_n_pk_out := l_n_plz_in;
         RETURN;
